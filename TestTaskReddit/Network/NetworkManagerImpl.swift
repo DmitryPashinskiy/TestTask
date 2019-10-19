@@ -40,14 +40,7 @@ class NetworkManagerImpl: NetworkManager {
   
   func send(request: NetworkRequest, callbackQueue: DispatchQueue, completion: @escaping NetworkCallback) -> NetworkOperation {
     let task = session.dataTask(with: request) { (data, response, error) in
-      guard let response = response as? HTTPURLResponse else {
-        Log("FAILURE: There is no response. Network Manager could be used for incorrect purposes")
-        callbackQueue.async {
-          completion(.failure(CocoaError(.executableRuntimeMismatch)))
-        }
-        return
-      }
-      Log("<--- \(response.statusCode) Response is received: \(response.url!)")
+
       let result: NetworkResult
       if let error = error {
         result = .failure(error)
@@ -56,6 +49,11 @@ class NetworkManagerImpl: NetworkManager {
       } else {
         result = .failure(CocoaError(.featureUnsupported))
       }
+      
+      if let response = response as? HTTPURLResponse {
+        Log("<--- \(response.statusCode) Response is received: \(response)")
+      }
+      
       callbackQueue.async {
         completion(result)
       }

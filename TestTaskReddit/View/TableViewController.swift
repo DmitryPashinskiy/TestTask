@@ -17,7 +17,10 @@ private let dateFormatter: DateFormatter = {
 class TableViewController: UITableViewController {
 
   var service = PostService()
+  var imageProvider: ImageProvider = ImageProviderImpl(storage: ImageStorageImpl(),
+                                                     networkManager: NetworkManagerImpl())
   var posts: [Post] = []
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,16 +69,23 @@ class TableViewController: UITableViewController {
     cell.authorLabel.text = "Posted by \(post.author) \(postedDateText)"
     cell.titleLabel.text = post.title
     cell.commentsLabel.text = "\(post.commentsAmount) Comments"
-    cell.postedDateLabel.text = "3 hours ago"
-    DispatchQueue.global().async {
-      let data = try? Data(contentsOf: post.thumbnail)
-      let image = data.flatMap { UIImage(data: $0) }
-      DispatchQueue.main.async {
-        cell.thumbImageView?.image = image
-        cell.setNeedsLayout()
+    
+    if post.thumbnail.isHTTP {
+      let thumbnail = post.thumbnail
+      imageProvider.fetchImage(url: post.thumbnail) { result in
+        guard case let .success(image) = result else {
+          return
+        }
+        // Check whether the post exists at the same indexPath or no
+        guard let cell = tableView.cellForRow(at: indexPath) as? PostTableCell,
+          indexPath.row < self.posts.count,
+          self.posts[indexPath.row].thumbnail == thumbnail else {
+            return
+        }
+        cell.thumbImageView.image = image
       }
     }
-    
+
     return cell
   }
   
