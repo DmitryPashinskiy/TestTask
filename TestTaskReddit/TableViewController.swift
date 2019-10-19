@@ -8,11 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TableViewController: UITableViewController {
 
+  var service = PostService()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view.
+    
+    service.fetchPosts() // stub
+    
   }
 
 

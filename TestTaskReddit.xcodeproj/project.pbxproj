@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		A554C703235B2878009663CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C702235B2878009663CF /* AppDelegate.swift */; };
 		A554C705235B2878009663CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C704235B2878009663CF /* SceneDelegate.swift */; };
-		A554C707235B2878009663CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C706235B2878009663CF /* ViewController.swift */; };
+		A554C707235B2878009663CF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C706235B2878009663CF /* TableViewController.swift */; };
 		A554C70A235B2878009663CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A554C708235B2878009663CF /* Main.storyboard */; };
 		A554C70C235B287D009663CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A554C70B235B287D009663CF /* Assets.xcassets */; };
 		A554C70F235B287D009663CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A554C70D235B287D009663CF /* LaunchScreen.storyboard */; };
+		A554C71A235B2B52009663CF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C719235B2B52009663CF /* NetworkManager.swift */; };
+		A554C71C235B2E58009663CF /* NetworkManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C71B235B2E58009663CF /* NetworkManagerImpl.swift */; };
+		A554C71E235B35CD009663CF /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C71D235B35CD009663CF /* PostsService.swift */; };
+		A554C721235B392B009663CF /* Loger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C720235B392B009663CF /* Loger.swift */; };
+		A554C723235B4462009663CF /* NetworkOperationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C722235B4462009663CF /* NetworkOperationImpl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A554C6FF235B2878009663CF /* TestTaskReddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestTaskReddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A554C702235B2878009663CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A554C704235B2878009663CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A554C706235B2878009663CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A554C706235B2878009663CF /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A554C709235B2878009663CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A554C70B235B287D009663CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A554C70E235B287D009663CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A554C710235B287D009663CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A554C719235B2B52009663CF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		A554C71B235B2E58009663CF /* NetworkManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerImpl.swift; sourceTree = "<group>"; };
+		A554C71D235B35CD009663CF /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
+		A554C720235B392B009663CF /* Loger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loger.swift; sourceTree = "<group>"; };
+		A554C722235B4462009663CF /* NetworkOperationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationImpl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +66,44 @@
 		A554C701235B2878009663CF /* TestTaskReddit */ = {
 			isa = PBXGroup;
 			children = (
+				A554C71F235B3920009663CF /* Loger */,
+				A554C718235B2B3E009663CF /* Network */,
+				A554C716235B2B1A009663CF /* Services */,
 				A554C702235B2878009663CF /* AppDelegate.swift */,
 				A554C704235B2878009663CF /* SceneDelegate.swift */,
-				A554C706235B2878009663CF /* ViewController.swift */,
+				A554C706235B2878009663CF /* TableViewController.swift */,
 				A554C708235B2878009663CF /* Main.storyboard */,
 				A554C70B235B287D009663CF /* Assets.xcassets */,
 				A554C70D235B287D009663CF /* LaunchScreen.storyboard */,
 				A554C710235B287D009663CF /* Info.plist */,
 			);
 			path = TestTaskReddit;
+			sourceTree = "<group>";
+		};
+		A554C716235B2B1A009663CF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A554C71D235B35CD009663CF /* PostsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A554C718235B2B3E009663CF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A554C719235B2B52009663CF /* NetworkManager.swift */,
+				A554C71B235B2E58009663CF /* NetworkManagerImpl.swift */,
+				A554C722235B4462009663CF /* NetworkOperationImpl.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A554C71F235B3920009663CF /* Loger */ = {
+			isa = PBXGroup;
+			children = (
+				A554C720235B392B009663CF /* Loger.swift */,
+			);
+			path = Loger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +177,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A554C707235B2878009663CF /* ViewController.swift in Sources */,
+				A554C71C235B2E58009663CF /* NetworkManagerImpl.swift in Sources */,
+				A554C71A235B2B52009663CF /* NetworkManager.swift in Sources */,
+				A554C723235B4462009663CF /* NetworkOperationImpl.swift in Sources */,
+				A554C707235B2878009663CF /* TableViewController.swift in Sources */,
+				A554C721235B392B009663CF /* Loger.swift in Sources */,
 				A554C703235B2878009663CF /* AppDelegate.swift in Sources */,
 				A554C705235B2878009663CF /* SceneDelegate.swift in Sources */,
+				A554C71E235B35CD009663CF /* PostsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
