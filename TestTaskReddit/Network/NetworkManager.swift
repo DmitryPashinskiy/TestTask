@@ -15,8 +15,15 @@ typealias NetworkCallback = (NetworkResult) -> Void
 
 protocol NetworkManager: class {
   @discardableResult
-  func send(request: NetworkRequest, completion: @escaping NetworkCallback) -> NetworkOperation
+  func send(request: NetworkRequest, callbackQueue: DispatchQueue, completion: @escaping NetworkCallback) -> NetworkOperation
   func cancel<O: Operation>(operation: O) where O: NetworkOperation
+}
+
+extension NetworkManager {
+  @discardableResult
+  func send(request: NetworkRequest, completion: @escaping NetworkCallback) -> NetworkOperation {
+    return send(request: request, callbackQueue: .main, completion: completion)
+  }
 }
 
 

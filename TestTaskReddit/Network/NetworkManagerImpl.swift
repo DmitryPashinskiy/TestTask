@@ -40,7 +40,7 @@ class NetworkManagerImpl: NetworkManager {
   
   // MARK: - NetworkManager
   
-  func send(request: NetworkRequest, callbackQueue: DispatchQueue = .main, completion: @escaping NetworkCallback) -> NetworkOperation {
+  func send(request: NetworkRequest, callbackQueue: DispatchQueue, completion: @escaping NetworkCallback) -> NetworkOperation {
     let task = session.dataTask(with: request) { (data, response, error) in
       guard let response = response as? HTTPURLResponse else {
         Log("FAILURE: There is no response. Network Manager could be used for incorrect purposes")
