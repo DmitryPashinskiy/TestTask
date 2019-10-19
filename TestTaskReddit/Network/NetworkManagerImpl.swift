@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 class NetworkManagerImpl: NetworkManager {
   
   private var session: URLSession
@@ -44,16 +42,22 @@ class NetworkManagerImpl: NetworkManager {
     let task = session.dataTask(with: request) { (data, response, error) in
       guard let response = response as? HTTPURLResponse else {
         Log("FAILURE: There is no response. Network Manager could be used for incorrect purposes")
-        completion(.failure(CocoaError(.executableRuntimeMismatch)))
+        callbackQueue.async {
+          completion(.failure(CocoaError(.executableRuntimeMismatch)))
+        }
         return
       }
       Log("<--- \(response.statusCode) Response is received: \(response.url!)")
+      let result: NetworkResult
       if let error = error {
-        completion(.failure(error))
+        result = .failure(error)
       } else if let data = data {
-        completion(.success(data))
+        result = .success(data)
       } else {
-        completion(.failure(CocoaError(.featureUnsupported)))
+        result = .failure(CocoaError(.featureUnsupported))
+      }
+      callbackQueue.async {
+        completion(result)
       }
     }
     let operation = NetworkOperationImpl(task: task,

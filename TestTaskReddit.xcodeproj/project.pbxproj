@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5069C15235B5B4900A75764 /* PostTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5069C14235B5B4900A75764 /* PostTableCell.swift */; };
 		A554C703235B2878009663CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C702235B2878009663CF /* AppDelegate.swift */; };
 		A554C705235B2878009663CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C704235B2878009663CF /* SceneDelegate.swift */; };
 		A554C707235B2878009663CF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C706235B2878009663CF /* TableViewController.swift */; };
@@ -18,9 +19,13 @@
 		A554C71E235B35CD009663CF /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C71D235B35CD009663CF /* PostsService.swift */; };
 		A554C721235B392B009663CF /* Loger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C720235B392B009663CF /* Loger.swift */; };
 		A554C723235B4462009663CF /* NetworkOperationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C722235B4462009663CF /* NetworkOperationImpl.swift */; };
+		A554C726235B4BA8009663CF /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C725235B4BA8009663CF /* Post.swift */; };
+		A554C729235B537F009663CF /* PostsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A554C728235B537F009663CF /* PostsResult.swift */; };
+		A5BD9711235B569B0006C036 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BD9710235B569B0006C036 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A5069C14235B5B4900A75764 /* PostTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableCell.swift; sourceTree = "<group>"; };
 		A554C6FF235B2878009663CF /* TestTaskReddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestTaskReddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A554C702235B2878009663CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A554C704235B2878009663CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +39,9 @@
 		A554C71D235B35CD009663CF /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 		A554C720235B392B009663CF /* Loger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loger.swift; sourceTree = "<group>"; };
 		A554C722235B4462009663CF /* NetworkOperationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationImpl.swift; sourceTree = "<group>"; };
+		A554C725235B4BA8009663CF /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		A554C728235B537F009663CF /* PostsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsResult.swift; sourceTree = "<group>"; };
+		A5BD9710235B569B0006C036 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +55,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A5069C11235B5B2900A75764 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A5069C13235B5B4000A75764 /* Cells */,
+				A554C706235B2878009663CF /* TableViewController.swift */,
+				A554C708235B2878009663CF /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A5069C12235B5B3300A75764 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A5BD9710235B569B0006C036 /* Utilities.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		A5069C13235B5B4000A75764 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A5069C14235B5B4900A75764 /* PostTableCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		A554C6F6235B2878009663CF = {
 			isa = PBXGroup;
 			children = (
@@ -66,13 +100,14 @@
 		A554C701235B2878009663CF /* TestTaskReddit */ = {
 			isa = PBXGroup;
 			children = (
+				A5069C12235B5B3300A75764 /* Utilities */,
+				A5069C11235B5B2900A75764 /* View */,
+				A554C724235B4B9F009663CF /* Model */,
 				A554C71F235B3920009663CF /* Loger */,
 				A554C718235B2B3E009663CF /* Network */,
 				A554C716235B2B1A009663CF /* Services */,
 				A554C702235B2878009663CF /* AppDelegate.swift */,
 				A554C704235B2878009663CF /* SceneDelegate.swift */,
-				A554C706235B2878009663CF /* TableViewController.swift */,
-				A554C708235B2878009663CF /* Main.storyboard */,
 				A554C70B235B287D009663CF /* Assets.xcassets */,
 				A554C70D235B287D009663CF /* LaunchScreen.storyboard */,
 				A554C710235B287D009663CF /* Info.plist */,
@@ -91,6 +126,7 @@
 		A554C718235B2B3E009663CF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				A554C727235B536F009663CF /* ResponseResult */,
 				A554C719235B2B52009663CF /* NetworkManager.swift */,
 				A554C71B235B2E58009663CF /* NetworkManagerImpl.swift */,
 				A554C722235B4462009663CF /* NetworkOperationImpl.swift */,
@@ -104,6 +140,22 @@
 				A554C720235B392B009663CF /* Loger.swift */,
 			);
 			path = Loger;
+			sourceTree = "<group>";
+		};
+		A554C724235B4B9F009663CF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A554C725235B4BA8009663CF /* Post.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A554C727235B536F009663CF /* ResponseResult */ = {
+			isa = PBXGroup;
+			children = (
+				A554C728235B537F009663CF /* PostsResult.swift */,
+			);
+			path = ResponseResult;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,10 +231,14 @@
 			files = (
 				A554C71C235B2E58009663CF /* NetworkManagerImpl.swift in Sources */,
 				A554C71A235B2B52009663CF /* NetworkManager.swift in Sources */,
+				A5BD9711235B569B0006C036 /* Utilities.swift in Sources */,
+				A554C729235B537F009663CF /* PostsResult.swift in Sources */,
+				A5069C15235B5B4900A75764 /* PostTableCell.swift in Sources */,
 				A554C723235B4462009663CF /* NetworkOperationImpl.swift in Sources */,
 				A554C707235B2878009663CF /* TableViewController.swift in Sources */,
 				A554C721235B392B009663CF /* Loger.swift in Sources */,
 				A554C703235B2878009663CF /* AppDelegate.swift in Sources */,
+				A554C726235B4BA8009663CF /* Post.swift in Sources */,
 				A554C705235B2878009663CF /* SceneDelegate.swift in Sources */,
 				A554C71E235B35CD009663CF /* PostsService.swift in Sources */,
 			);

@@ -13,7 +13,8 @@ class PostService {
   
   var manager: NetworkManager = NetworkManagerImpl()
   
-  func fetchPosts() -> NetworkOperation? {
+  @discardableResult
+  func fetchPosts(completion: @escaping ActionBlock<Result<[Post], Error>> ) -> NetworkOperation? {
     
     let request = URLRequest(url: URL(string: "https://www.reddit.com/top.json")!)
     
@@ -21,13 +22,16 @@ class PostService {
       switch result {
       case .success(let data):
         do {
-          let info = try JSONSerialization.jsonObject(with: data, options: [])
-//          Log(info)
+          let postsResult = try JSONDecoder().decode(PostsResult.self, from: data)
+          let posts = postsResult.data.children.map { $0.data }
+          completion(.success(posts))
         } catch {
           Log(error)
+          completion(.failure(error))
         }
         
-      case .failure: Log("Sth went wrong")
+      case .failure(let error):
+      completion(.failure(error))
       }
     }
     
