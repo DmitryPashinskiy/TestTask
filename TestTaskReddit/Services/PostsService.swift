@@ -22,7 +22,13 @@ class PostService {
       switch result {
       case .success(let data):
         do {
-          let postsResult = try JSONDecoder().decode(PostsResult.self, from: data)
+          var decoder = JSONDecoder()
+          decoder.dateDecodingStrategy = .custom { decoder -> Date in
+            let container = try decoder.singleValueContainer()
+            let timeInterval = try container.decode(TimeInterval.self)
+            return Date(timeIntervalSince1970: timeInterval)
+          }
+          let postsResult = try decoder.decode(PostsResult.self, from: data)
           let posts = postsResult.data.children.map { $0.data }
           completion(.success(posts))
         } catch {

@@ -8,6 +8,12 @@
 
 import UIKit
 
+private let dateFormatter: DateFormatter = {
+  var formatter = DateFormatter()
+  formatter.dateStyle = .full
+  return formatter
+}()
+
 class TableViewController: UITableViewController {
 
   var service = PostService()
@@ -38,7 +44,26 @@ class TableViewController: UITableViewController {
     }
     let post = posts[indexPath.row]
     
-    cell.authorLabel.text = post.author
+    let finalDate = Date().timeIntervalSince(post.createdDate)
+    
+    let minute: TimeInterval = 60
+    let hour: TimeInterval = 60 * minute
+    let day: TimeInterval = 24 * hour
+    
+    let postedDateText: String
+    switch finalDate {
+    case 0..<hour:
+      postedDateText = "recently"
+    case hour..<day:
+      postedDateText = "\(Int(finalDate / hour)) hours ago"
+      
+    default:
+      let day = finalDate / day
+      let dayInt = Int(day)
+      postedDateText = "\(dayInt) days ago"
+    }
+
+    cell.authorLabel.text = "Posted by \(post.author) \(postedDateText)"
     cell.titleLabel.text = post.title
     cell.commentsLabel.text = "\(post.commentsAmount) Comments"
     cell.postedDateLabel.text = "3 hours ago"
