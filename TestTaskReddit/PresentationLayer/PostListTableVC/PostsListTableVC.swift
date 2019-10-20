@@ -126,10 +126,20 @@ class PostsListTableVC: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     let post = posts[indexPath.row]
-    guard post.thumbnail.isHTTP else {
+    guard post.imageURL.isHTTP else {
       return
     }
-    router.showPreviewImage(imageURL: post.thumbnail, title: post.author)
+    
+    let url: URL
+    if post.imageURL.host != "imgur.com" {
+      url = post.imageURL
+    } else if post.thumbnail.isHTTP {
+      url = post.thumbnail
+    } else {
+      return
+    }
+    
+    router.showPreviewImage(imageURL: url, title: post.author)
   }
   
 }

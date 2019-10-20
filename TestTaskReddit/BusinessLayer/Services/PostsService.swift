@@ -23,7 +23,7 @@ class PostService {
     var components = URLComponents(string: "https://www.reddit.com/top.json")!
     
     if let postID = post?.id {
-      let query = URLQueryItem(name: "after", value: postID)
+      let query = URLQueryItem(name: "after", value: "t3_\(postID)")
       components.queryItems = [query]
     }
     

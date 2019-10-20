@@ -15,6 +15,7 @@ struct Post {
   let createdDate: Date
   let thumbnail: URL
   let commentsAmount: Int
+  let imageURL: URL
 }
 
 
@@ -27,6 +28,7 @@ extension Post: Decodable {
     case author
     case createdDate = "created"
     case thumbnail
+    case imageURL = "url"
     case commentsAmount = "num_comments"
   }
 }

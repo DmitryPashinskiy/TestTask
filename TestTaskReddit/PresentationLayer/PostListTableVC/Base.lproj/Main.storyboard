@@ -142,7 +142,7 @@
             </objects>
             <point key="canvasLocation" x="159.42028985507247" y="29.464285714285712"/>
         </scene>
-        <!--Title-->
+        <!--Preview ImageVC-->
         <scene sceneID="uIa-4F-qcZ">
             <objects>
                 <viewController storyboardIdentifier="PreviewImageVC" id="93J-kj-vbA" customClass="PreviewImageVC" customModule="TestTaskReddit" customModuleProvider="target" sceneMemberID="viewController">
@@ -157,7 +157,7 @@
                                 <rect key="frame" x="188.5" y="434.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DiX-Wh-6fV">
-                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="CTu-kB-TVP"/>
@@ -183,7 +183,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bGx-m7-srx"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="MJm-Tv-njN"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="XCO-KH-XxX" id="gro-0X-fWt"/>

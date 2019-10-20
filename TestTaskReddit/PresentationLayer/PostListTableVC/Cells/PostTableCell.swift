@@ -19,6 +19,7 @@ class PostTableCell: UITableViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbImageView.image = nil
+    thumbImageView.isHidden = false
     titleLabel.text = nil
     authorLabel.text = nil
     commentsLabel.text = nil
