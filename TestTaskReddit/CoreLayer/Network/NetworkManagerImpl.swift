@@ -51,7 +51,7 @@ class NetworkManagerImpl: NetworkManager {
       }
       
       if let response = response as? HTTPURLResponse {
-        Log("<--- \(response.statusCode) Response is received: \(response)")
+        Log("<--- \(response.statusCode) Response is received: \(response.url?.absoluteString ?? "")")
       }
       
       callbackQueue.async {

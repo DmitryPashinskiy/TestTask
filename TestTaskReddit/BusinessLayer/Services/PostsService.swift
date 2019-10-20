@@ -11,18 +11,22 @@ import Foundation
 
 class PostService {
   
-  var manager: NetworkManager = NetworkManagerImpl()
+  private let networkManager: NetworkManager
+  
+  init(networkManager: NetworkManager) {
+    self.networkManager = networkManager
+  }
   
   @discardableResult
   func fetchPosts(completion: @escaping ActionBlock<Result<[Post], Error>> ) -> NetworkOperation? {
     
     let request = URLRequest(url: URL(string: "https://www.reddit.com/top.json")!)
     
-    return manager.send(request: request) { result in
+    return networkManager.send(request: request) { result in
       switch result {
       case .success(let data):
         do {
-          var decoder = JSONDecoder()
+          let decoder = JSONDecoder()
           decoder.dateDecodingStrategy = .custom { decoder -> Date in
             let container = try decoder.singleValueContainer()
             let timeInterval = try container.decode(TimeInterval.self)

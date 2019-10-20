@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PostsListTableVC.swift
 //  TestTaskReddit
 //
 //  Created by Newcomer on 19.10.2019.
@@ -14,13 +14,12 @@ private let dateFormatter: DateFormatter = {
   return formatter
 }()
 
-class TableViewController: UITableViewController {
+class PostsListTableVC: UITableViewController {
 
-  var service = PostService()
-  var imageProvider: ImageProvider = ImageProviderImpl(storage: ImageStorageImpl(),
-                                                     networkManager: NetworkManagerImpl())
-  var posts: [Post] = []
+  var service: PostService!
+  var imageProvider: ImageProvider!
   
+  var posts: [Post] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -90,12 +89,4 @@ class TableViewController: UITableViewController {
   }
   
 
-}
-
-extension UIViewController {
-  func show(error: Error) {
-    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-    alert.addAction(.init(title: "OK", style: .cancel, handler: nil))
-    present(alert, animated: true, completion: nil)
-  }
 }
