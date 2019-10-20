@@ -17,7 +17,9 @@ class PreviewImageVC: UIViewController {
   @IBOutlet weak var shareButton: UIBarButtonItem!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   @IBOutlet weak var imageView: UIImageView!
-  private var image: UIImage?
+  private var image: UIImage? {
+    return imageView.image
+  }
   var imageURL: URL!
   
   override func viewDidLoad() {
@@ -36,7 +38,6 @@ class PreviewImageVC: UIViewController {
         self.shareButton.isEnabled = true
       case .failure(let error):
         self.show(error: error)
-//        self.dismiss(animated: true, completion: nil)
       }
     }
     

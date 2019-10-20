@@ -23,32 +23,42 @@ enum PhotoLibraryError: Error {
 class PhotoLibraryManager {
   
   private let queue = OperationQueue()
+  var callbackQueue = DispatchQueue.main
   
   init() {
     queue.maxConcurrentOperationCount = ProcessInfo.processInfo.processorCount
   }
   
   func requestPermissionIfNeeded(completion: @escaping ActionBlock<PhotoLibraryResult>) {
-
+    var result: PhotoLibraryResult?
     switch PHPhotoLibrary.authorizationStatus() {
     case .authorized:
-      completion(.success(()))
-      return
+      result = .success(())
     case .denied:
-      completion(.failure(.photoPermissionDenied))
-      return
+      result = .failure(.photoPermissionDenied)
     case .restricted:
-      completion(.failure(.photoPermissionRestricted))
-      return
+      result = .failure(.photoPermissionRestricted)
     case .notDetermined: break // requestAuthorization
     @unknown default: break // requestAuthorization
     }
     
+    if let result = result {
+      self.callbackQueue.async {
+        completion(result)
+      }
+      return
+    }
+    
     PHPhotoLibrary.requestAuthorization { status in
+      let result: PhotoLibraryResult
       if status == .authorized {
-        completion(.success(()))
+        result = .success(())
       } else {
-        completion(.failure(.underlying(error: CocoaError(.userCancelled))))
+        result = .failure(.underlying(error: CocoaError(.userCancelled)))
+      }
+      
+      self.callbackQueue.async {
+        completion(result)
       }
     }
   }
@@ -66,12 +76,15 @@ class PhotoLibraryManager {
     if isHighPriority {
       operation.queuePriority = .veryHigh
     }
-    operation.completionBlock = { [unowned operation] in
+    operation.completionBlock = { [unowned operation, weak self] in
+      guard let self = self else { return }
       assert(operation.result != nil)
       guard let result = operation.result else {
         return
       }
-      completion(result)
+      self.callbackQueue.async {
+        completion(result)
+      }
     }
     queue.addOperation(operation)
   }
@@ -95,7 +108,6 @@ private class SaveImageInLibraryOperation: Operation {
   
   override func main() {
     UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-    assert(Thread.isMainThread)
     if condition.wait(until: Date() + timeExpiration) == false {
       result = .failure(.timeExpired)
     }
