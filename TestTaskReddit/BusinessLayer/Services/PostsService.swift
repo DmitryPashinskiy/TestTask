@@ -18,9 +18,16 @@ class PostService {
   }
   
   @discardableResult
-  func fetchPosts(completion: @escaping ActionBlock<Result<[Post], Error>> ) -> NetworkOperation? {
+  func fetchPosts(after post: Post? = nil, completion: @escaping ActionBlock<Result<[Post], Error>> ) -> NetworkOperation? {
     
-    let request = URLRequest(url: URL(string: "https://www.reddit.com/top.json")!)
+    var components = URLComponents(string: "https://www.reddit.com/top.json")!
+    
+    if let postID = post?.id {
+      let query = URLQueryItem(name: "after", value: postID)
+      components.queryItems = [query]
+    }
+    
+    let request = URLRequest(url: components.url!)
     
     return networkManager.send(request: request) { result in
       switch result {

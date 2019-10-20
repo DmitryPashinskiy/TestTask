@@ -9,6 +9,7 @@
 import Foundation
 
 struct Post {
+  let id: String
   let title: String
   let author: String
   let createdDate: Date
@@ -21,6 +22,7 @@ struct Post {
 extension Post: Decodable {
   
   enum CodingKeys: String, CodingKey {
+    case id
     case title
     case author
     case createdDate = "created"

@@ -28,7 +28,7 @@ extension NetworkManager {
 
 
 
-protocol NetworkOperation {
+protocol NetworkOperation: class {
   func cancelOperation()
 }
 

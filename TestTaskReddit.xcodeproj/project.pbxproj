@@ -34,6 +34,7 @@
 		A5E0850B235C7EA000BE6241 /* PhotoLibraryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0850A235C7EA000BE6241 /* PhotoLibraryManager.swift */; };
 		A5E0850E235C8E1A00BE6241 /* PreviewImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0850D235C8E1A00BE6241 /* PreviewImageFactory.swift */; };
 		A5E08510235C8F0600BE6241 /* PostsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0850F235C8F0600BE6241 /* PostsListRouter.swift */; };
+		A5E08512235CD19200BE6241 /* LoadTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08511235CD19200BE6241 /* LoadTableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		A5E0850A235C7EA000BE6241 /* PhotoLibraryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryManager.swift; sourceTree = "<group>"; };
 		A5E0850D235C8E1A00BE6241 /* PreviewImageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageFactory.swift; sourceTree = "<group>"; };
 		A5E0850F235C8F0600BE6241 /* PostsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListRouter.swift; sourceTree = "<group>"; };
+		A5E08511235CD19200BE6241 /* LoadTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				A5069C14235B5B4900A75764 /* PostTableCell.swift */,
+				A5E08511235CD19200BE6241 /* LoadTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				A5E08503235C433800BE6241 /* DIFactory.swift in Sources */,
 				A5E08500235C3F8A00BE6241 /* PostsListFactory.swift in Sources */,
 				A5E084EB235B80A500BE6241 /* ImageStorage.swift in Sources */,
+				A5E08512235CD19200BE6241 /* LoadTableCell.swift in Sources */,
 				A5E0850E235C8E1A00BE6241 /* PreviewImageFactory.swift in Sources */,
 				A5E084FA235C3E4500BE6241 /* MainCoordinator.swift in Sources */,
 				A5E08505235C435700BE6241 /* DIContainer.swift in Sources */,

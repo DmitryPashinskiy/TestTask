@@ -20,15 +20,30 @@ class PostsListTableVC: UITableViewController {
   var service: PostService!
   var imageProvider: ImageProvider!
   
-  var posts: [Post] = []
+  private weak var loadingOperation: NetworkOperation?
+  
+  private var posts: [Post] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    service.fetchPosts { [weak self] result in
+    fetchPosts()
+  }
+  
+  func loadMore() {
+    fetchPosts(after: posts.last)
+  }
+  
+  func fetchPosts(after: Post? = nil) {
+    guard loadingOperation == nil else {
+      Log("Loading posts operation is in progress already")
+      return
+    }
+    
+    loadingOperation = service.fetchPosts(after: after) { [weak self] result in
       guard let self = self else { return }
       switch result {
       case .success(let posts):
-        self.posts = posts
+        self.posts.append(contentsOf: posts)
         self.tableView.reloadData()
       case .failure(let error):
         self.show(error: error)
@@ -36,11 +51,20 @@ class PostsListTableVC: UITableViewController {
     }
   }
   
+  
+  // MARK: - TableViewDataSource & TableViewDelegate
+  
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return posts.count
+    return posts.count + 1
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    if indexPath.row == posts.count {
+      let loadCell = tableView.dequeueReusableCell(withIdentifier: "LoadTableCell", for: indexPath)
+      return loadCell
+    }
+    
     let identifier = "PostTableCell"
     guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? PostTableCell else {
       fatalError("There is no such cell with identifier \(identifier)")
@@ -87,6 +111,12 @@ class PostsListTableVC: UITableViewController {
     }
 
     return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if indexPath.row == posts.count {
+      loadMore()
+    }
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
