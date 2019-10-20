@@ -96,6 +96,7 @@ class PostsListTableVC: UITableViewController {
     
     if post.thumbnail.isHTTP {
       let thumbnail = post.thumbnail
+      cell.thumbImageView.showLoading()
       imageProvider.fetchImage(url: post.thumbnail) { result in
         guard case let .success(image) = result else {
           return
@@ -106,8 +107,11 @@ class PostsListTableVC: UITableViewController {
           self.posts[indexPath.row].thumbnail == thumbnail else {
             return
         }
+        cell.thumbImageView.hideLoading()
         cell.thumbImageView.image = image
       }
+    } else {
+      cell.thumbImageView.isHidden = true
     }
 
     return cell

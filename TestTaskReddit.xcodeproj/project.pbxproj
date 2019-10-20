@@ -35,6 +35,7 @@
 		A5E0850E235C8E1A00BE6241 /* PreviewImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0850D235C8E1A00BE6241 /* PreviewImageFactory.swift */; };
 		A5E08510235C8F0600BE6241 /* PostsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0850F235C8F0600BE6241 /* PostsListRouter.swift */; };
 		A5E08512235CD19200BE6241 /* LoadTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08511235CD19200BE6241 /* LoadTableCell.swift */; };
+		A5E08514235CD61F00BE6241 /* UIImageView+Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08513235CD61F00BE6241 /* UIImageView+Hud.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		A5E0850D235C8E1A00BE6241 /* PreviewImageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageFactory.swift; sourceTree = "<group>"; };
 		A5E0850F235C8F0600BE6241 /* PostsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListRouter.swift; sourceTree = "<group>"; };
 		A5E08511235CD19200BE6241 /* LoadTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTableCell.swift; sourceTree = "<group>"; };
+		A5E08513235CD61F00BE6241 /* UIImageView+Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Hud.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				A5E084EE235B961B00BE6241 /* URL+Utilities.swift */,
+				A5E08513235CD61F00BE6241 /* UIImageView+Hud.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				A554C721235B392B009663CF /* Loger.swift in Sources */,
 				A5E08503235C433800BE6241 /* DIFactory.swift in Sources */,
 				A5E08500235C3F8A00BE6241 /* PostsListFactory.swift in Sources */,
+				A5E08514235CD61F00BE6241 /* UIImageView+Hud.swift in Sources */,
 				A5E084EB235B80A500BE6241 /* ImageStorage.swift in Sources */,
 				A5E08512235CD19200BE6241 /* LoadTableCell.swift in Sources */,
 				A5E0850E235C8E1A00BE6241 /* PreviewImageFactory.swift in Sources */,
