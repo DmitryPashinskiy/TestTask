@@ -24,6 +24,11 @@ class PostsListFactory {
     }
     vc.imageProvider = imageProvider
     vc.service = service
+    
+    let router = PostsListRouter(container: container, viewController: vc)
+    
+    vc.router = router
+    
     return vc
   }
   

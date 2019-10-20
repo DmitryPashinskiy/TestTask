@@ -17,6 +17,8 @@ class DIFactory {
     container.register(imageProvider as ImageProvider)
     container.register(PostService(networkManager: NetworkManagerImpl()))
     
+    container.register(PhotoLibraryManager())
+    
     return container
   }
   

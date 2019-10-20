@@ -16,6 +16,7 @@ private let dateFormatter: DateFormatter = {
 
 class PostsListTableVC: UITableViewController {
 
+  var router: PostsListRouter!
   var service: PostService!
   var imageProvider: ImageProvider!
   
@@ -88,5 +89,13 @@ class PostsListTableVC: UITableViewController {
     return cell
   }
   
-
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    let post = posts[indexPath.row]
+    guard post.thumbnail.isHTTP else {
+      return
+    }
+    router.showPreviewImage(imageURL: post.thumbnail, title: post.author)
+  }
+  
 }
