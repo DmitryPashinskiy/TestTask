@@ -36,6 +36,11 @@ class ImageProviderImpl: ImageProvider {
   }
   
   func fetchImage(url: URL, completion: @escaping ActionBlock<ImageResult>) {
+    callbackQueue.async {
+      completion(.success(UIImage(systemName: "folder")!))      
+    }
+    return
+    
     guard !url.isFileURL else {
       callbackQueue.async {
         completion(.failure(CocoaError(.featureUnsupported)))

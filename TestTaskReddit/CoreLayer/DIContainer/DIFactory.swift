@@ -12,10 +12,12 @@ class DIFactory {
   
   class func makePostsListContainer() -> DIContainer {
     let imageProvider = ImageProviderImpl(storage: ImageStorageImpl(), networkManager: NetworkManagerImpl())
+    let postProvider = PostProviderImpl(networkManager: NetworkManagerImpl())
+    let database = StandardDatabase(stack: CoreDataStack())
     
     let container = DIContainerImpl()
     container.register(imageProvider as ImageProvider)
-    container.register(PostService(networkManager: NetworkManagerImpl()))
+    container.register(PostService(postProvider: postProvider, database: database))
     
     container.register(PhotoLibraryManager())
     

@@ -30,12 +30,21 @@ class PostProviderImpl {
       return Date(timeIntervalSince1970: timeInterval)
     }
   }
+}
+
+extension PostProviderImpl {
+  private enum HTTPRoute: String {
+    case top = "top.json"
+  }
+}
+
+extension PostProviderImpl: PostProvider {
   
   @discardableResult
   func getPosts(after: String?, completion: @escaping ActionBlock<Result<[Post], Error>>) -> NetworkOperation? {
     
     let params = after.map { ["after": "t3_\($0)"] }
-    guard let request = requestBuilder.makeRequest(route: "top.json", method: .GET, urlParams: params) else {
+    guard let request = requestBuilder.makeRequest(route: HTTPRoute.top.rawValue, method: .GET, urlParams: params) else {
       completion(.failure(NetworkError.invalidParams))
       return nil
     }
@@ -53,10 +62,9 @@ class PostProviderImpl {
           completion(.failure(error))
         }
       case .failure(let error):
-        completion(.failure(error)) // User Error
+        completion(.failure(error))
       }
     }
-    
   }
   
 }

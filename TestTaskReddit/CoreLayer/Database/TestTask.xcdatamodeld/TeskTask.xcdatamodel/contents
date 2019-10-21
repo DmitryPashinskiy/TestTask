@@ -6,10 +6,11 @@
         <attribute name="created" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="imageURL" optional="YES" attributeType="URI"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="thumbnailURL" optional="YES" attributeType="URI"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="PostModel" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="PostModel" positionX="-63" positionY="-18" width="128" height="163"/>
     </elements>
 </model>
