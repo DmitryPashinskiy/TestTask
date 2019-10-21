@@ -36,6 +36,14 @@
 		A5E08510235C8F0600BE6241 /* PostsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0850F235C8F0600BE6241 /* PostsListRouter.swift */; };
 		A5E08512235CD19200BE6241 /* LoadTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08511235CD19200BE6241 /* LoadTableCell.swift */; };
 		A5E08514235CD61F00BE6241 /* UIImageView+Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08513235CD61F00BE6241 /* UIImageView+Hud.swift */; };
+		A5E08517235DA78300BE6241 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08516235DA78300BE6241 /* Database.swift */; };
+		A5E08519235DA79800BE6241 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08518235DA79700BE6241 /* CoreDataStack.swift */; };
+		A5E0853F235DA9F100BE6241 /* TestTask.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A5E0853D235DA9F100BE6241 /* TestTask.xcdatamodeld */; };
+		A5E08548235DAE2200BE6241 /* PostModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08545235DAD6400BE6241 /* PostModel+CoreDataProperties.swift */; };
+		A5E08549235DAE2600BE6241 /* PostModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08544235DAD6400BE6241 /* PostModel+CoreDataClass.swift */; };
+		A5E0854C235DDF6B00BE6241 /* PostProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0854B235DDF6B00BE6241 /* PostProvider.swift */; };
+		A5E0854F235DEED500BE6241 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0854E235DEED500BE6241 /* UserError.swift */; };
+		A5E08551235DEF2C00BE6241 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08550235DEF2C00BE6241 /* URLBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +78,14 @@
 		A5E0850F235C8F0600BE6241 /* PostsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListRouter.swift; sourceTree = "<group>"; };
 		A5E08511235CD19200BE6241 /* LoadTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTableCell.swift; sourceTree = "<group>"; };
 		A5E08513235CD61F00BE6241 /* UIImageView+Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Hud.swift"; sourceTree = "<group>"; };
+		A5E08516235DA78300BE6241 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		A5E08518235DA79700BE6241 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		A5E0853E235DA9F100BE6241 /* TeskTask.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TeskTask.xcdatamodel; sourceTree = "<group>"; };
+		A5E08544235DAD6400BE6241 /* PostModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A5E08545235DAD6400BE6241 /* PostModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A5E0854B235DDF6B00BE6241 /* PostProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProvider.swift; sourceTree = "<group>"; };
+		A5E0854E235DEED500BE6241 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
+		A5E08550235DEF2C00BE6241 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +165,7 @@
 				A554C719235B2B52009663CF /* NetworkManager.swift */,
 				A554C71B235B2E58009663CF /* NetworkManagerImpl.swift */,
 				A554C722235B4462009663CF /* NetworkOperationImpl.swift */,
+				A5E08550235DEF2C00BE6241 /* URLBuilder.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -191,6 +208,7 @@
 		A5E084F1235C3AD200BE6241 /* BusinessLayer */ = {
 			isa = PBXGroup;
 			children = (
+				A5E0854A235DDF5D00BE6241 /* Providers */,
 				A5E084F3235C3BCA00BE6241 /* NetworkDTOModels */,
 				A554C716235B2B1A009663CF /* Services */,
 			);
@@ -200,6 +218,8 @@
 		A5E084F2235C3ADB00BE6241 /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
+				A5E0854D235DEECC00BE6241 /* Errors */,
+				A5E08515235DA77000BE6241 /* Database */,
 				A5E08509235C7E5700BE6241 /* PhotoLibrary */,
 				A5E08501235C432900BE6241 /* DIContainer */,
 				A5E084F4235C3C1300BE6241 /* Extensions */,
@@ -312,6 +332,34 @@
 			path = Factory;
 			sourceTree = "<group>";
 		};
+		A5E08515235DA77000BE6241 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				A5E08544235DAD6400BE6241 /* PostModel+CoreDataClass.swift */,
+				A5E08545235DAD6400BE6241 /* PostModel+CoreDataProperties.swift */,
+				A5E08516235DA78300BE6241 /* Database.swift */,
+				A5E08518235DA79700BE6241 /* CoreDataStack.swift */,
+				A5E0853D235DA9F100BE6241 /* TestTask.xcdatamodeld */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		A5E0854A235DDF5D00BE6241 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				A5E0854B235DDF6B00BE6241 /* PostProvider.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		A5E0854D235DEECC00BE6241 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				A5E0854E235DEED500BE6241 /* UserError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -387,8 +435,12 @@
 				A5E08508235C4F5600BE6241 /* PreviewImageVC.swift in Sources */,
 				A554C71A235B2B52009663CF /* NetworkManager.swift in Sources */,
 				A5BD9711235B569B0006C036 /* Utilities.swift in Sources */,
+				A5E08519235DA79800BE6241 /* CoreDataStack.swift in Sources */,
+				A5E0854F235DEED500BE6241 /* UserError.swift in Sources */,
 				A554C729235B537F009663CF /* PostsResult.swift in Sources */,
 				A5069C15235B5B4900A75764 /* PostTableCell.swift in Sources */,
+				A5E08548235DAE2200BE6241 /* PostModel+CoreDataProperties.swift in Sources */,
+				A5E08551235DEF2C00BE6241 /* URLBuilder.swift in Sources */,
 				A5E08510235C8F0600BE6241 /* PostsListRouter.swift in Sources */,
 				A554C723235B4462009663CF /* NetworkOperationImpl.swift in Sources */,
 				A554C707235B2878009663CF /* PostsListTableVC.swift in Sources */,
@@ -398,6 +450,7 @@
 				A5E08514235CD61F00BE6241 /* UIImageView+Hud.swift in Sources */,
 				A5E084EB235B80A500BE6241 /* ImageStorage.swift in Sources */,
 				A5E08512235CD19200BE6241 /* LoadTableCell.swift in Sources */,
+				A5E08549235DAE2600BE6241 /* PostModel+CoreDataClass.swift in Sources */,
 				A5E0850E235C8E1A00BE6241 /* PreviewImageFactory.swift in Sources */,
 				A5E084FA235C3E4500BE6241 /* MainCoordinator.swift in Sources */,
 				A5E08505235C435700BE6241 /* DIContainer.swift in Sources */,
@@ -407,7 +460,10 @@
 				A554C726235B4BA8009663CF /* Post.swift in Sources */,
 				A5E084FD235C3EA900BE6241 /* UIViewController+Utilities.swift in Sources */,
 				A554C705235B2878009663CF /* SceneDelegate.swift in Sources */,
+				A5E0853F235DA9F100BE6241 /* TestTask.xcdatamodeld in Sources */,
+				A5E08517235DA78300BE6241 /* Database.swift in Sources */,
 				A5E084ED235B8F7D00BE6241 /* ImageProvider.swift in Sources */,
+				A5E0854C235DDF6B00BE6241 /* PostProvider.swift in Sources */,
 				A554C71E235B35CD009663CF /* PostsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,6 +660,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A5E0853D235DA9F100BE6241 /* TestTask.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A5E0853E235DA9F100BE6241 /* TeskTask.xcdatamodel */,
+			);
+			currentVersion = A5E0853E235DA9F100BE6241 /* TeskTask.xcdatamodel */;
+			path = TestTask.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A554C6F7235B2878009663CF /* Project object */;
 }

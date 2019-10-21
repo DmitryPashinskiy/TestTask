@@ -7,51 +7,74 @@
 //
 
 import Foundation
-
+import CoreData
 
 class PostService {
   
-  private let networkManager: NetworkManager
+//  private let networkManager: NetworkManager
+  private let postsProvider: PostProvider
+  private let coreData: CoreDataStack = CoreDataStack()
   
-  init(networkManager: NetworkManager) {
-    self.networkManager = networkManager
+  init(postsProvider: PostProvider) {
+    self.postsProvider = postsProvider
   }
   
   @discardableResult
   func fetchPosts(after post: Post? = nil, completion: @escaping ActionBlock<Result<[Post], Error>> ) -> NetworkOperation? {
     
-    var components = URLComponents(string: "https://www.reddit.com/top.json")!
+    completion(.success(givePosts()))
+    return nil
     
-    if let postID = post?.id {
-      let query = URLQueryItem(name: "after", value: "t3_\(postID)")
-      components.queryItems = [query]
-    }
-    
-    let request = URLRequest(url: components.url!)
-    
-    return networkManager.send(request: request) { result in
+    postsProvider.getPosts(after: post?.id) { [weak self] result in
+      guard let self = self else { return }
       switch result {
-      case .success(let data):
-        do {
-          let decoder = JSONDecoder()
-          decoder.dateDecodingStrategy = .custom { decoder -> Date in
-            let container = try decoder.singleValueContainer()
-            let timeInterval = try container.decode(TimeInterval.self)
-            return Date(timeIntervalSince1970: timeInterval)
-          }
-          let postsResult = try decoder.decode(PostsResult.self, from: data)
-          let posts = postsResult.data.children.map { $0.data }
-          completion(.success(posts))
-        } catch {
-          Log(error)
-          completion(.failure(error))
-        }
+      case .success(let posts):
+        self.savePosts(posts: posts)
+        completion(.success(posts))
         
       case .failure(let error):
-      completion(.failure(error))
+        Log(error)
+        completion(.failure(error))
       }
     }
+  }
+  
+  func savePosts(posts: [Post]) {
     
+    let container = self.coreData.persistentContainer
+    let context = container.viewContext
+    print(context)
+    let models = posts.map { post -> PostModel in
+      let postModel = PostModel(context: context)
+      postModel.id = post.id
+      postModel.title = post.title
+      postModel.author = post.author
+      postModel.created = post.createdDate
+      postModel.thumbnailURL = post.thumbnail
+      postModel.commentsAmount = post.commentsAmount as NSNumber
+      postModel.imageURL = post.imageURL
+      return postModel
+    }
+    
+    try! context.save()
+  }
+  
+  func givePosts() -> [Post] {
+    
+    let context = coreData.persistentContainer.viewContext
+    
+    let request = PostModel.fetchRequest() as NSFetchRequest
+    let models: [PostModel] = try! context.fetch(request)
+    
+    return models.map {
+      return Post(id: $0.id,
+        title: $0.title,
+        author: $0.author!,
+        createdDate: $0.created,
+        thumbnail: $0.thumbnailURL!,
+        commentsAmount: $0.commentsAmount!.intValue,
+        imageURL: $0.imageURL!)
+    }
   }
   
 }

@@ -13,6 +13,14 @@ typealias NetworkRequest = URLRequest
 typealias NetworkResult = Result<Data, Error>
 typealias NetworkCallback = (NetworkResult) -> Void
 
+enum NetworkError: Error {
+  case invalidParams
+  case noConnection
+  case responseError(error: Error)
+  case underlying(error: Error)
+}
+
+
 protocol NetworkManager: class {
   @discardableResult
   func send(request: NetworkRequest, callbackQueue: DispatchQueue, completion: @escaping NetworkCallback) -> NetworkOperation

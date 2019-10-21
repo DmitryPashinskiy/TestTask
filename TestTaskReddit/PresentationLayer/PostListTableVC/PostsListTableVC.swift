@@ -8,12 +8,6 @@
 
 import UIKit
 
-private let dateFormatter: DateFormatter = {
-  var formatter = DateFormatter()
-  formatter.dateStyle = .full
-  return formatter
-}()
-
 class PostsListTableVC: UITableViewController {
 
   var router: PostsListRouter!

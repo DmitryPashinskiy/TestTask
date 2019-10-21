@@ -18,8 +18,6 @@ struct Post {
   let imageURL: URL
 }
 
-
-
 extension Post: Decodable {
   
   enum CodingKeys: String, CodingKey {
