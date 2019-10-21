@@ -44,7 +44,7 @@ class URLBuilder {
     
     components.host = host
     components.scheme = scheme
-    components.path = route
+    components.path = "/" + route
     
     components.queryItems = urlParams?.map { URLQueryItem(name: $0.0, value: $0.1) }
     
