@@ -14,6 +14,7 @@ typealias NetworkResult = Result<Data, Error>
 typealias NetworkCallback = (NetworkResult) -> Void
 
 enum NetworkError: Error {
+  case timeout
   case invalidParams
   case noConnection
   case responseError(error: Error)

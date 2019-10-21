@@ -39,29 +39,11 @@ class NetworkManagerImpl: NetworkManager {
   // MARK: - NetworkManager
   
   func send(request: NetworkRequest, callbackQueue: DispatchQueue, completion: @escaping NetworkCallback) -> NetworkOperation {
-    let task = session.dataTask(with: request) { (data, response, error) in
-
-      let result: NetworkResult
-      if let error = error {
-        result = .failure(error)
-      } else if let data = data {
-        result = .success(data)
-      } else {
-        result = .failure(CocoaError(.featureUnsupported))
-      }
-      
-      if let response = response as? HTTPURLResponse {
-        Log("<--- \(response.statusCode) Response is received: \(response.url?.absoluteString ?? "")")
-      }
-      
-      callbackQueue.async {
-        completion(result)
-      }
-    }
-    let operation = NetworkOperationImpl(task: task,
-                                         manager: self,
+    let operation = NetworkOperationImpl(request: request,
+                                         session: session, manager: self,
                                          callbackQueue: callbackQueue,
                                          networkCompletion: completion)
+    
     enqueue(operation)
     return operation
   }
