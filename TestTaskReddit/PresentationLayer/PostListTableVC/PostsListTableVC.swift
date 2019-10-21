@@ -131,7 +131,8 @@ class PostsListTableVC: UITableViewController {
     }
     
     let url: URL
-    if post.imageURL.host != "imgur.com" {
+    // imgur api is not supported in current version, use thumbnail instead
+    if ["i.redd.it"].contains(post.imageURL.host) {
       url = post.imageURL
     } else if post.thumbnail.isHTTP {
       url = post.thumbnail

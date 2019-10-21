@@ -26,7 +26,7 @@ extension Post: Decodable {
     case id
     case title
     case author
-    case createdDate = "created"
+    case createdDate = "created_utc"
     case thumbnail
     case imageURL = "url"
     case commentsAmount = "num_comments"
