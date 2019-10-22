@@ -48,28 +48,11 @@ class ImageStorageImpl: ImageStorage {
     self.spaceName = spaceName
     let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, [.userDomainMask], true).first!
     folderURL = URL(fileURLWithPath: cachePath).appendingPathComponent(spaceName)
+    createFolderIfNeeded()
   }
   
-  func image(key: String, callbackQueue: DispatchQueue, completion: @escaping ActionBlock<UIImage?>) {
-    queue.async {
-      var filePath = self.folderURL
-      filePath.appendPathComponent(String(key.hash))
-      var image: UIImage?
-      do {
-        let data = try Data(contentsOf: filePath, options: [])
-        image = UIImage(data: data)
-      } catch {
-        Log("Error: \(error)")
-      }
-      callbackQueue.async {
-        completion(image)
-      }
-    }
-  }
-  
-  func save(image: UIImage, for key: String) {
+  func createFolderIfNeeded() {
     queue.async(flags: .barrier) {
-      
       do {
         if !self.fileManager.fileExists(atPath: self.folderURL.path, isDirectory: nil) {
           try self.fileManager.createDirectory(at: self.folderURL, withIntermediateDirectories: true, attributes: nil)
@@ -78,6 +61,25 @@ class ImageStorageImpl: ImageStorage {
         Log("Error: Can't create folder: \(error)")
         return
       }
+    }
+  }
+  
+  func image(key: String, callbackQueue: DispatchQueue, completion: @escaping ActionBlock<UIImage?>) {
+    queue.async {
+      var filePath = self.folderURL
+      filePath.appendPathComponent(String(key.hash))
+
+      let data = try? Data(contentsOf: filePath, options: [])
+      let image = data.flatMap { UIImage(data: $0) }
+      
+      callbackQueue.async {
+        completion(image)
+      }
+    }
+  }
+  
+  func save(image: UIImage, for key: String) {
+    queue.async(flags: .barrier) {
       
       var filePath = self.folderURL
       filePath.appendPathComponent(String(key.hash))

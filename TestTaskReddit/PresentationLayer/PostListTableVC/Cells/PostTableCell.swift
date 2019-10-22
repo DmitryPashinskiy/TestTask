@@ -18,6 +18,7 @@ class PostTableCell: UITableViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    thumbImageView.hideLoading()
     thumbImageView.image = nil
     thumbImageView.isHidden = false
     titleLabel.text = nil

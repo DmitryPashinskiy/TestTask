@@ -192,6 +192,8 @@ class PostsListTableVC: UITableViewController {
       let thumbnail = post.thumbnail
       cell.thumbImageView.showLoading()
       imageProvider.fetchImage(url: post.thumbnail) { result in
+        cell.thumbImageView.hideLoading()
+        
         guard case let .success(image) = result else {
           return
         }
@@ -201,7 +203,7 @@ class PostsListTableVC: UITableViewController {
           self.posts[indexPath.row].thumbnail == thumbnail else {
             return
         }
-        cell.thumbImageView.hideLoading()
+        
         cell.thumbImageView.image = image
       }
     } else {
