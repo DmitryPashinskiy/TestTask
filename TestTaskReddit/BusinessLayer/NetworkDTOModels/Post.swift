@@ -18,7 +18,7 @@ struct Post {
   let imageURL: URL
 }
 
-extension Post: Decodable {
+extension Post: Codable {
   
   enum CodingKeys: String, CodingKey {
     case id

@@ -10,24 +10,79 @@ import UIKit
 
 class PostsListTableVC: UITableViewController {
 
+  struct State {
+    var offset: CGPoint = .zero
+    var lastPost: Post?
+  }
+  
   var router: PostsListRouter!
   var service: PostService!
   var imageProvider: ImageProvider!
+  
+  var state = State()
   
   private weak var loadingOperation: NetworkOperation?
   
   private var posts: [Post] = []
   
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    fetchPosts()
+    setupRefresher()
+    Log(state)
+    
+    if let post = state.lastPost, state.offset != .zero {
+      fetchCachedPosts()
+    } else {
+      reloadPosts()
+    }
+    
   }
   
-  func loadMore() {
+  func setupRefresher() {
+    refreshControl = UIRefreshControl()
+    refreshControl?.addTarget(self, action: #selector(refreshPulled), for: .valueChanged)
+  }
+  
+  @objc func refreshPulled() {
+    reloadPosts()
+  }
+  
+  private func reloadPosts() {
+    service.removeCache()
+    loadingOperation = service.fetchPosts() { [weak self] result in
+      guard let self = self else { return }
+      self.refreshControl?.endRefreshing()
+      switch result {
+      case .success(let posts):
+        self.posts = posts
+        self.tableView.reloadData()
+      case .failure(let error):
+        self.show(error: error)
+      }
+    }
+  }
+  
+  private func loadMore() {
     fetchPosts(after: posts.last)
   }
   
-  func fetchPosts(after: Post? = nil) {
+  private func fetchCachedPosts() {
+    service.fetchCachedPosts { [weak self] result in
+      guard let self = self else { return }
+      switch result {
+      case .success(let posts):
+        self.posts.append(contentsOf: posts)
+        self.tableView.reloadData()
+        self.tableView.setContentOffset(self.state.offset, animated: false)
+      case .failure(let error):
+        self.show(error: error)
+      }
+    }
+  }
+  
+  private func fetchPosts(after: Post? = nil) {
     guard loadingOperation == nil else {
       Log("Loading posts operation is in progress already")
       return
@@ -35,6 +90,7 @@ class PostsListTableVC: UITableViewController {
     
     loadingOperation = service.fetchPosts(after: after) { [weak self] result in
       guard let self = self else { return }
+      self.refreshControl?.endRefreshing()
       switch result {
       case .success(let posts):
         self.posts.append(contentsOf: posts)
@@ -46,10 +102,50 @@ class PostsListTableVC: UITableViewController {
   }
   
   
+  // MARK: - UIStateRestoring
+  
+  override func encodeRestorableState(with coder: NSCoder) {
+    let key = String(describing: State.self)
+    coder.encode(state, forKey: key)
+    super.encodeRestorableState(with: coder)
+    Log(#function)
+  }
+  
+  override func decodeRestorableState(with coder: NSCoder) {
+    let key = String(describing: State.self)
+    if let state = coder.decodeObject(forKey: key) as? State {
+      self.state = state
+    }
+    super.decodeRestorableState(with: coder)
+    Log(#function)
+  }
+  
+  override func applicationFinishedRestoringState() {
+    Log(#function)
+  }
+  
+  func setup(activity: NSUserActivity) {
+    if let offsetY = activity.userInfo?["offsetY"] as? CGFloat {
+      state.offset.y = offsetY
+    }
+    
+    if let postData = activity.userInfo?["postData"] as? Data {
+      let post = try? JSONDecoder().decode(Post.self, from: postData)
+      state.lastPost = post
+    }
+    
+  }
+  
+  func getActivity() -> NSUserActivity {
+    let activity = NSUserActivity.init(activityType: "restoration")
+    activity.userInfo = ["state": state]
+    return activity
+  }
+  
   // MARK: - TableViewDataSource & TableViewDelegate
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return posts.count + 1
+    return posts.isEmpty ? 0 : posts.count + 1
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -113,7 +209,9 @@ class PostsListTableVC: UITableViewController {
   
   override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if indexPath.row == posts.count {
-      loadMore()
+      DispatchQueue.main.async {
+        self.loadMore()
+      }
     }
   }
   
@@ -137,4 +235,34 @@ class PostsListTableVC: UITableViewController {
     router.showPreviewImage(imageURL: url, title: post.author)
   }
   
+}
+
+
+extension PostsListTableVC: UIViewControllerRestoration {
+  static func viewController(withRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
+    return UIViewController()
+  }
+}
+
+extension PostsListTableVC: StateRestorationActivityProvider {
+  func stateRestorationActivity() -> NSUserActivity? {
+    Log("")
+    
+    state.lastPost = posts.last
+    state.offset = tableView.contentOffset
+    
+    let activity = NSUserActivity(activityType: "restoration")
+    
+    var info: [String: Any] = [:]
+    info["offsetY"] = state.offset.y
+    Log(state.offset)
+    if let post = state.lastPost {
+      info["postData"] = try! JSONEncoder().encode(post)
+    }
+    activity.persistentIdentifier = "feed"
+    
+    activity.addUserInfoEntries(from: info)
+    Log(activity)
+    return activity
+  }
 }

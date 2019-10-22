@@ -40,7 +40,8 @@ class NetworkManagerImpl: NetworkManager {
   
   func send(request: NetworkRequest, callbackQueue: DispatchQueue, completion: @escaping NetworkCallback) -> NetworkOperation {
     let operation = NetworkOperationImpl(request: request,
-                                         session: session, manager: self,
+                                         session: session,
+                                         manager: self,
                                          callbackQueue: callbackQueue,
                                          networkCompletion: completion)
     

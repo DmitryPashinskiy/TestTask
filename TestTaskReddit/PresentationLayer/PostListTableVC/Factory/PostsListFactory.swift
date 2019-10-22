@@ -10,7 +10,7 @@ import UIKit
 
 class PostsListFactory {
   
-  class func make(container: DIContainer) -> UIViewController {
+  class func make(container: DIContainer, route: AppRoute? = nil) -> UIViewController {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let identifier = String(describing: PostsListTableVC.self)
     guard let vc = storyboard.instantiateViewController(identifier: identifier) as? PostsListTableVC else {
@@ -28,6 +28,14 @@ class PostsListFactory {
     let router = PostsListRouter(container: container, viewController: vc)
     
     vc.router = router
+    if let route = route {
+      switch route {
+      case .feed(activity: let activity):
+        vc.setup(activity: activity)
+      default:
+        assertionFailure("Route is unsupported: \(route)")
+      }
+    }
     
     return vc
   }

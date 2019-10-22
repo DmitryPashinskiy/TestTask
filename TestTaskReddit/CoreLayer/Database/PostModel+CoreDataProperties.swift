@@ -25,6 +25,6 @@ extension PostModel {
   @NSManaged public var imageURL: URL?
   @NSManaged public var created: Date!
   
-  @NSManaged public var order: NSNumber!
+  @NSManaged public var orderNumber: NSNumber!
 
 }

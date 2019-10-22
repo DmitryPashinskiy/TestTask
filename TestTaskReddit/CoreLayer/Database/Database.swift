@@ -35,13 +35,13 @@ class StandardDatabase {
       if let id = id {
         let predicate = NSPredicate(format: "id=%@", id)
         let afterPostModel = try coreDataStack.fetchObject(predicate: predicate, properties: ["order"]) as PostModel?
-        offset = afterPostModel?.order.intValue ?? 0
+        offset = afterPostModel.map { $0.order + 1 } ?? 0
       }
       let sortDescriptior = NSSortDescriptor(key: "order", ascending: true)
-      print("offset is \(offset)")
+      Log("offset is \(offset)")
       let models = try coreDataStack.fetch(object: PostModel.self,
                                            offset: offset,
-                                           size: 25,
+                                           size: 0,
                                            sortDescriptior: sortDescriptior)
       completion(.success(makePosts(models: models)))
     } catch {
@@ -50,7 +50,58 @@ class StandardDatabase {
     }
   }
   
-  func makePosts(models: [PostModel]) -> [Post] {
+  func removePosts() {
+    coreDataStack.remove(PostModel.self)
+  }
+  
+  func updatePosts(posts: [Post]) {
+    
+    let models = fetchPostModels(IDs: posts.map { $0.id })
+    
+    if models.isEmpty {
+      let count = try! coreDataStack.countOf(PostModel.self)
+      createPosts(posts: posts, orderStart: count)
+    } else {
+      mergePosts(posts: posts, postModels: models)
+    }
+    
+    coreDataStack.save()
+  }
+  
+  private func fetchPostModels(IDs: [String]) -> [PostModel] {
+    let models = try! coreDataStack.fetch(object: PostModel.self,
+                                          predicate: NSPredicate(format: "%@ contains self.id", IDs))
+    return models
+  }
+  
+  private func createPosts(posts: [Post], orderStart: Int) {
+    let context = coreDataStack.persistentContainer.viewContext
+    posts.enumerated().forEach { index, post in
+      let postModel = PostModel.createModel(post: post, context: context)
+      postModel.order = orderStart + index
+    }
+  }
+  
+  private func mergePosts(posts: [Post], postModels: [PostModel]) {
+    let modelsInfo = postModels.reduce([String: PostModel]()) { result, model -> [String: PostModel] in
+      return result.merging([model.id: model], uniquingKeysWith: {(current, other) in return current})
+    }
+    
+    var postsInfo = posts.reduce([String: Post]()) { result, post -> [String: Post] in
+      return result.merging([post.id: post], uniquingKeysWith: {(current, other) in return current})
+    }
+    
+    // updating existing
+    for (key, post) in postsInfo {
+      if let model = modelsInfo[key] {
+        model.updateModel(post: post)
+        postsInfo[key] = nil
+      }
+    }
+    
+  }
+  
+  private func makePosts(models: [PostModel]) -> [Post] {
     return models.map {
       return Post(id: $0.id,
                   title: $0.title,
@@ -62,24 +113,6 @@ class StandardDatabase {
     }
   }
   
-  func savePosts(posts: [Post]) {
-    
-    let context = coreDataStack.persistentContainer.viewContext
-    let count = try! coreDataStack.countOf(PostModel.self)
-    
-    posts.enumerated().forEach { index, post in
-      let postModel = PostModel(context: context)
-      postModel.id = post.id
-      postModel.title = post.title
-      postModel.author = post.author
-      postModel.created = post.createdDate
-      postModel.thumbnailURL = post.thumbnail
-      postModel.commentsAmount = post.commentsAmount as NSNumber
-      postModel.imageURL = post.imageURL
-      postModel.order = NSNumber(value: count + index)
-    }
-    
-    coreDataStack.save()
-  }
+  
   
 }
