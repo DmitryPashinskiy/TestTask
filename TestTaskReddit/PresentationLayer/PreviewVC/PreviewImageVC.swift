@@ -48,18 +48,26 @@ class PreviewImageVC: UIViewController {
     photoManager.requestPermissionIfNeeded { [weak self] result in
       guard let self = self else { return }
       guard let image = self.image else { return }
+      
       switch result {
       case .success:
+        self.imageView.showLoading()
         self.photoManager.saveToPhotos(image: image, isHighPriority: true) { result in
+          self.imageView.hideLoading()
           switch result {
           case .success:
             Log("Image has been successfuly saved")
+            self.show(message: "Image has been successfuly saved into Library")
           case .failure(let error):
             self.show(error: error)
           }
         }
       case .failure(let error):
-        self.show(error: error)
+        if case .photoPermissionDenied = error {
+          self.showSettings(message: "Please enable access in Settings to save the image")
+        } else {
+          self.show(error: error)
+        }
       }
     }
   }

@@ -11,12 +11,24 @@ import Photos
 
 typealias PhotoLibraryResult = Result<Void, PhotoLibraryError>
 
-enum PhotoLibraryError: Error {
+enum PhotoLibraryError: LocalizedError {
+
   case photoPermissionDenied
   // could be occured due to parent control
   case photoPermissionRestricted
   case timeExpired
+  case cancelled
   case underlying(error: Error?)
+  
+  var errorDescription: String? {
+    switch self {
+    case .photoPermissionDenied: return "Photo permission is denied"
+    case .photoPermissionRestricted: return "Photo permission is restricted"
+    case .timeExpired: return "Something went wrong, please try again later"
+    case .cancelled: return "You can enable permission in Settings anytime"
+    case .underlying: return "Undefined error occured, please contact support"
+    }
+  }
 }
 
 
@@ -54,7 +66,7 @@ class PhotoLibraryManager {
       if status == .authorized {
         result = .success(())
       } else {
-        result = .failure(.underlying(error: CocoaError(.userCancelled)))
+        result = .failure(.cancelled)
       }
       
       self.callbackQueue.async {
