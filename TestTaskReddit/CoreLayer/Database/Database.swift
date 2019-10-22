@@ -37,7 +37,7 @@ class StandardDatabase {
         let afterPostModel = try coreDataStack.fetchObject(predicate: predicate, properties: ["order"]) as PostModel?
         offset = afterPostModel.map { $0.order + 1 } ?? 0
       }
-      let sortDescriptior = NSSortDescriptor(key: "order", ascending: true)
+      let sortDescriptior = NSSortDescriptor(key: "orderNumber", ascending: true)
       Log("offset is \(offset)")
       let models = try coreDataStack.fetch(object: PostModel.self,
                                            offset: offset,

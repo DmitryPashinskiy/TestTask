@@ -50,7 +50,7 @@ class PostService {
   }
   
   func removeCache() {
-    database
+    database.removePosts()
   }
   
 }

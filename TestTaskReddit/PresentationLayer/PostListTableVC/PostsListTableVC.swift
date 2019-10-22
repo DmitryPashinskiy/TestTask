@@ -71,11 +71,15 @@ class PostsListTableVC: UITableViewController {
   private func fetchCachedPosts() {
     service.fetchCachedPosts { [weak self] result in
       guard let self = self else { return }
+      self.refreshControl?.endRefreshing()
       switch result {
       case .success(let posts):
         self.posts.append(contentsOf: posts)
         self.tableView.reloadData()
-        self.tableView.setContentOffset(self.state.offset, animated: false)
+        self.state.offset.y = self.state.offset.y
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          self.tableView.setContentOffset(self.state.offset, animated: false)
+        }
       case .failure(let error):
         self.show(error: error)
       }
@@ -245,6 +249,12 @@ extension PostsListTableVC: UIViewControllerRestoration {
 }
 
 extension PostsListTableVC: StateRestorationActivityProvider {
+  
+  override func restoreUserActivityState(_ activity: NSUserActivity) {
+    super.restoreUserActivityState(activity)
+    
+  }
+  
   func stateRestorationActivity() -> NSUserActivity? {
     Log("")
     
