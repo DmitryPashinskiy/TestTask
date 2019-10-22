@@ -71,8 +71,7 @@ class NetworkOperationImpl: Operation {
   }
   
   func invokeCompletion(result: NetworkResult) {
-    callbackQueue.async { //[weak self] in
-      print("OperationCompletion: thumb: \(self.request.url!)")
+    callbackQueue.async {
       self.networkCompletion(result)
     }
   }

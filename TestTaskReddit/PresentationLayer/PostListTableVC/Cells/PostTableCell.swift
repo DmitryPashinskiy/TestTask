@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PostTableCellDelegate: class {
+  func cellDidTapImage(_ cell: PostTableCell)
+}
+
 class PostTableCell: UITableViewCell {
   
   @IBOutlet weak var thumbImageView: UIImageView!
@@ -15,6 +19,14 @@ class PostTableCell: UITableViewCell {
   @IBOutlet weak var authorLabel: UILabel!
   @IBOutlet weak var commentsLabel: UILabel!
   @IBOutlet weak var postedDateLabel: UILabel!
+  
+  weak var delegate: PostTableCellDelegate?
+  
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    let tap = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
+    thumbImageView.addGestureRecognizer(tap)
+  }
   
   override func prepareForReuse() {
     super.prepareForReuse()
@@ -25,6 +37,10 @@ class PostTableCell: UITableViewCell {
     authorLabel.text = nil
     commentsLabel.text = nil
     postedDateLabel.text = nil
+  }
+  
+  @IBAction func imageTapped(_ gesture: UITapGestureRecognizer) {
+    delegate?.cellDidTapImage(self)
   }
   
 }

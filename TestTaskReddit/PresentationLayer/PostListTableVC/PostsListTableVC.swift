@@ -188,6 +188,8 @@ class PostsListTableVC: UITableViewController {
     cell.titleLabel.text = post.title
     cell.commentsLabel.text = "\(post.commentsAmount) Comments"
     
+    cell.delegate = self
+    
     if post.thumbnail.isHTTP {
       let thumbnail = post.thumbnail
       cell.thumbImageView.showLoading()
@@ -219,26 +221,6 @@ class PostsListTableVC: UITableViewController {
         self.loadMore()
       }
     }
-  }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: true)
-    let post = posts[indexPath.row]
-    guard post.imageURL.isHTTP else {
-      return
-    }
-    
-    let url: URL
-    // imgur api is not supported in current version, use thumbnail instead
-    if ["i.redd.it"].contains(post.imageURL.host) {
-      url = post.imageURL
-    } else if post.thumbnail.isHTTP {
-      url = post.thumbnail
-    } else {
-      return
-    }
-    
-    router.showPreviewImage(imageURL: url, title: post.author)
   }
   
 }
@@ -276,5 +258,30 @@ extension PostsListTableVC: StateRestorationActivityProvider {
     activity.addUserInfoEntries(from: info)
     Log(activity)
     return activity
+  }
+}
+
+extension PostsListTableVC: PostTableCellDelegate {
+  func cellDidTapImage(_ cell: PostTableCell) {
+    guard let indexPath = tableView.indexPath(for: cell) else {
+      return
+    }
+    
+    let post = posts[indexPath.row]
+    guard post.imageURL.isHTTP else {
+      return
+    }
+    
+    let url: URL
+    // imgur api is not supported in current version, use thumbnail instead
+    if ["i.redd.it"].contains(post.imageURL.host) {
+      url = post.imageURL
+    } else if post.thumbnail.isHTTP {
+      url = post.thumbnail
+    } else {
+      return
+    }
+    
+    router.showPreviewImage(imageURL: url, title: post.author)
   }
 }

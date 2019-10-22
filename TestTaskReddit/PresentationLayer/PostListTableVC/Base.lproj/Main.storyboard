@@ -11,7 +11,7 @@
         <scene sceneID="Aqv-Ij-Iwf">
             <objects>
                 <tableViewController storyboardIdentifier="PostsListTableVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gzA-rU-rkM" customClass="PostsListTableVC" customModule="TestTaskReddit" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EpC-AJ-2fB">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EpC-AJ-2fB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -35,9 +35,10 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vpz-8f-FeL">
                                                     <rect key="frame" x="0.0" y="22.5" width="398" height="139"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I2S-Mq-OIc">
+                                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I2S-Mq-OIc">
                                                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                             <color key="tintColor" systemColor="opaqueSeparatorColor" red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <gestureRecognizers/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="60" id="E2t-8c-tA9"/>
                                                                 <constraint firstAttribute="width" secondItem="I2S-Mq-OIc" secondAttribute="height" multiplier="1:1" id="asn-V7-CXv"/>
@@ -68,6 +69,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <gestureRecognizers/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="bA7-Pk-OUF" secondAttribute="trailing" constant="8" id="0aA-V7-wrQ"/>
                                         <constraint firstItem="bA7-Pk-OUF" firstAttribute="top" secondItem="Rci-p2-z7Y" secondAttribute="top" constant="8" id="PfR-sC-Xtz"/>
