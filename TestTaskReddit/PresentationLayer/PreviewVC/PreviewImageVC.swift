@@ -14,6 +14,7 @@ class PreviewImageVC: UIViewController {
   var photoManager: PhotoLibraryManager!
   var imageProvider: ImageProvider!
   
+  @IBOutlet weak var barNavigationItem: UINavigationItem!
   @IBOutlet weak var shareButton: UIBarButtonItem!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   @IBOutlet weak var imageView: UIImageView!
@@ -24,7 +25,8 @@ class PreviewImageVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    navigationItem.title = title
+    
+    barNavigationItem.title = title
     
     shareButton.isEnabled = false
     activityIndicator.startAnimating()
@@ -51,9 +53,11 @@ class PreviewImageVC: UIViewController {
       
       switch result {
       case .success:
+        self.shareButton.isEnabled = false
         self.imageView.showLoading()
         self.photoManager.saveToPhotos(image: image, isHighPriority: true) { result in
           self.imageView.hideLoading()
+          self.shareButton.isEnabled = true
           switch result {
           case .success:
             Log("Image has been successfuly saved")
@@ -72,5 +76,10 @@ class PreviewImageVC: UIViewController {
     }
   }
   
-  
+}
+
+extension PreviewImageVC: UINavigationBarDelegate {
+  func position(for bar: UIBarPositioning) -> UIBarPosition {
+    return .topAttached
+  }
 }

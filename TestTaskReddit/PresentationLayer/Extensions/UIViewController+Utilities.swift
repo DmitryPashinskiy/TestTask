@@ -41,4 +41,8 @@ extension UIViewController {
     
     self.present(alertController, animated: true, completion: nil)
   }
+  
+  @IBAction func dismissAction(_ sender: Any) {
+    dismiss(animated: true, completion: nil)
+  }
 }
