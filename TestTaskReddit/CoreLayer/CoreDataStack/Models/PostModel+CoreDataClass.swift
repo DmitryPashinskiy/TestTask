@@ -18,7 +18,7 @@ public class PostModel: NSManagedObject {
 
 extension PostModel {
   var order: Int {
-    get { orderNumber.intValue ?? 0 }
+    get { orderNumber.intValue }
     set { orderNumber = newValue as NSNumber }
   }
 }

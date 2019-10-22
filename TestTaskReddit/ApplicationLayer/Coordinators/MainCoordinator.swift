@@ -32,12 +32,11 @@ class MainCoordinator {
   private var navigationController: UINavigationController?
   
   func start(window: UIWindow, activity: NSUserActivity? = nil) {
-    let container = DIFactory.makePostsListContainer()
+    let container = DIContainerFactory.makePostsListContainer()
     let route = activity.flatMap { builder.make(activity: $0) }
     
     let viewController = PostsListFactory.make(container: container, route: route)
     navigationController = UINavigationController(rootViewController: viewController)
-    
     window.rootViewController = navigationController
   }
   

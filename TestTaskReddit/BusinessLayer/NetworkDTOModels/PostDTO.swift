@@ -1,14 +1,14 @@
 //
-//  Post.swift
+//  PostDTO.swift
 //  TestTaskReddit
 //
-//  Created by Newcomer on 19.10.2019.
+//  Created by Newcomer on 22.10.2019.
 //  Copyright © 2019 Home. All rights reserved.
 //
 
 import Foundation
 
-struct Post {
+struct PostDTO {
   let id: String
   let title: String
   let author: String
@@ -18,7 +18,7 @@ struct Post {
   let imageURL: URL
 }
 
-extension Post: Codable {
+extension PostDTO: Codable {
   
   enum CodingKeys: String, CodingKey {
     case id
@@ -29,4 +29,5 @@ extension Post: Codable {
     case imageURL = "url"
     case commentsAmount = "num_comments"
   }
+  
 }

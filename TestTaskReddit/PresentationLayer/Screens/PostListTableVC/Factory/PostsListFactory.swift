@@ -18,11 +18,11 @@ class PostsListFactory {
     }
     
     
-    guard let imageProvider = container.resolve() as ImageProvider?,
+    guard let imageService = container.resolve() as ImageService?,
       let service = container.resolve() as PostService? else {
         fatalError("Can't obtain all necessery objects from container")
     }
-    vc.imageProvider = imageProvider
+    vc.imageService = imageService
     vc.service = service
     
     let router = PostsListRouter(container: container, viewController: vc)

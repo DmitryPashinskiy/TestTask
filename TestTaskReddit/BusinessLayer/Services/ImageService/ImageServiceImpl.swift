@@ -1,34 +1,23 @@
 //
-//  ImageProvider.swift
+//  ImageServiceImpl.swift
 //  TestTaskReddit
 //
-//  Created by Newcomer on 19.10.2019.
+//  Created by Newcomer on 22.10.2019.
 //  Copyright © 2019 Home. All rights reserved.
 //
 
 import UIKit
 
-typealias ImageResult = Result<UIImage, Error>
 
-protocol ImageProvider {
-  
-  /// Fetches Image
-  ///
-  /// Fetches image from local storage at specified `url`. If there is no such image
-  /// `ImageProvider` will make a network request to get it and then will save it into the local storage
-  /// - Parameter completion: will be invoked asynchronous when image will be fetched
-  func fetchImage(url: URL, completion: @escaping ActionBlock<ImageResult>)
-}
-
-
-class ImageProviderImpl: ImageProvider {
+/// TODO: - Add locks
+class ImageServiceImpl: ImageService {
   
   private var networkManager: NetworkManager
   private var storage: ImageStorage
   private var callbackQueue: DispatchQueue = .main
   
   private var requestCompletionStorage: [URL: [ActionBlock<ImageResult>]] = [:]
-  private var queue = DispatchQueue(label: "com.test.task.imageProvider.serial")
+  private var queue = DispatchQueue(label: "com.test.task.imageService.serial")
   
   init(storage: ImageStorage, networkManager: NetworkManager) {
     self.storage = storage

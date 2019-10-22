@@ -12,7 +12,7 @@ import Photos
 class PreviewImageVC: UIViewController {
   
   var photoManager: PhotoLibraryManager!
-  var imageProvider: ImageProvider!
+  var imageService: ImageService!
   
   @IBOutlet weak var barNavigationItem: UINavigationItem!
   @IBOutlet weak var shareButton: UIBarButtonItem!
@@ -31,7 +31,7 @@ class PreviewImageVC: UIViewController {
     shareButton.isEnabled = false
     activityIndicator.startAnimating()
     
-    self.imageProvider.fetchImage(url: imageURL) { result in
+    self.imageService.fetchImage(url: imageURL) { result in
       assert(Thread.isMainThread)
       self.activityIndicator.stopAnimating()
       switch result {

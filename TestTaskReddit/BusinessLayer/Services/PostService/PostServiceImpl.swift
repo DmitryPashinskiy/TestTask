@@ -1,16 +1,14 @@
 //
-//  PostsService.swift
+//  PostServiceImpl.swift
 //  TestTaskReddit
 //
-//  Created by Newcomer on 19.10.2019.
+//  Created by Newcomer on 22.10.2019.
 //  Copyright © 2019 Home. All rights reserved.
 //
 
 import Foundation
-import CoreData
 
-class PostService {
-  
+class PostServiceImpl {
   typealias PostsCompletion = ActionBlock<Result<[Post], Error>>
   
   private let postProvider: PostProvider
@@ -20,6 +18,10 @@ class PostService {
     self.postProvider = postProvider
     self.database = database
   }
+}
+
+
+extension PostServiceImpl: PostService {
   
   /// Fetches posts
   ///
@@ -59,4 +61,3 @@ class PostService {
   }
   
 }
-

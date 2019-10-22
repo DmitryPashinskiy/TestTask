@@ -16,7 +16,7 @@ class PostTableCell: UITableViewCell {
   
   @IBOutlet weak var thumbImageView: UIImageView!
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var authorLabel: UILabel!
+  @IBOutlet weak var topLabel: UILabel!
   @IBOutlet weak var commentsLabel: UILabel!
   @IBOutlet weak var postedDateLabel: UILabel!
   
@@ -34,7 +34,7 @@ class PostTableCell: UITableViewCell {
     thumbImageView.image = nil
     thumbImageView.isHidden = false
     titleLabel.text = nil
-    authorLabel.text = nil
+    topLabel.text = nil
     commentsLabel.text = nil
     postedDateLabel.text = nil
   }

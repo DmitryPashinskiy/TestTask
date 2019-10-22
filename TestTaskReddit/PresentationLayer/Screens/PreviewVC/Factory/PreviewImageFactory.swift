@@ -19,11 +19,11 @@ class PreviewImageFactory {
     }
     vc.imageURL = imageURL
     guard let photoManager = container.resolve() as PhotoLibraryManager?,
-      let imageProvider = container.resolve() as ImageProvider?  else {
+      let imageService = container.resolve() as ImageService?  else {
       fatalError("Can't obtain all necessery objects from container")
     }
     vc.photoManager = photoManager
-    vc.imageProvider = imageProvider
+    vc.imageService = imageService
     return vc
   }
   

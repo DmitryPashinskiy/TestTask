@@ -21,6 +21,6 @@ extension PostsResult {
 
 extension PostsResult.Data {
   struct Child: Decodable {
-    var data: Post
+    var data: PostDTO
   }
 }

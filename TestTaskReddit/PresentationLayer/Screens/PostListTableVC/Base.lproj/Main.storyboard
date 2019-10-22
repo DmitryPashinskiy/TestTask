@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Posts List TableVC-->
+        <!--Reddit Top-->
         <scene sceneID="Aqv-Ij-Iwf">
             <objects>
                 <tableViewController storyboardIdentifier="PostsListTableVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gzA-rU-rkM" customClass="PostsListTableVC" customModule="TestTaskReddit" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,11 +82,11 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="authorLabel" destination="kqI-fZ-ViT" id="LB1-OX-Ocn"/>
                                     <outlet property="commentsLabel" destination="GAo-lE-I5H" id="XrW-lk-e7W"/>
                                     <outlet property="postedDateLabel" destination="98s-Ap-65Z" id="tb3-0W-qL2"/>
                                     <outlet property="thumbImageView" destination="I2S-Mq-OIc" id="O9B-5D-J1P"/>
                                     <outlet property="titleLabel" destination="2yh-jM-MbM" id="Jch-5y-rKU"/>
+                                    <outlet property="topLabel" destination="kqI-fZ-ViT" id="LB1-OX-Ocn"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadTableCell" rowHeight="100" id="Qnu-pd-uVR" customClass="LoadTableCell" customModule="TestTaskReddit" customModuleProvider="target">
@@ -138,6 +138,7 @@
                             <outlet property="delegate" destination="gzA-rU-rkM" id="yhB-xr-gRm"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Reddit Top" id="kFO-zm-MNB"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GVG-tz-vqI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

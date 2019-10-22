@@ -17,11 +17,11 @@ class PostsListTableVC: UITableViewController {
   
   var router: PostsListRouter!
   var service: PostService!
-  var imageProvider: ImageProvider!
+  var imageService: ImageService!
   
   var state = State()
   
-  private weak var loadingOperation: NetworkOperation?
+  private weak var loadingOperation: NetworkOperation? // it should be CancellableOperation
   
   private var posts: [Post] = []
   
@@ -133,10 +133,10 @@ class PostsListTableVC: UITableViewController {
       state.offset.y = offsetY
     }
     
-    if let postData = activity.userInfo?["postData"] as? Data {
-      let post = try? JSONDecoder().decode(Post.self, from: postData)
-      state.lastPost = post
-    }
+//    if let postData = activity.userInfo?["postData"] as? Data {
+//      let post = try? JSONDecoder().decode(Post.self, from: postData)
+//      state.lastPost = post
+//    }
     
   }
   
@@ -154,6 +154,7 @@ class PostsListTableVC: UITableViewController {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
+    /// Infinite scroll
     if indexPath.row == posts.count {
       let loadCell = tableView.dequeueReusableCell(withIdentifier: "LoadTableCell", for: indexPath)
       return loadCell
@@ -164,27 +165,8 @@ class PostsListTableVC: UITableViewController {
       fatalError("There is no such cell with identifier \(identifier)")
     }
     let post = posts[indexPath.row]
-    
-    let finalDate = Date().timeIntervalSince(post.createdDate)
-    
-    let minute: TimeInterval = 60
-    let hour: TimeInterval = 60 * minute
-    let day: TimeInterval = 24 * hour
-    
-    let postedDateText: String
-    switch finalDate {
-    case 0..<hour:
-      postedDateText = "recently"
-    case hour..<day:
-      postedDateText = "\(Int(finalDate / hour)) hours ago"
-      
-    default:
-      let day = finalDate / day
-      let dayInt = Int(day)
-      postedDateText = "\(dayInt) days ago"
-    }
 
-    cell.authorLabel.text = "Posted by \(post.author) \(postedDateText)"
+    cell.topLabel.text = "Posted by \(post.author) \(post.createdTimeAgo)"
     cell.titleLabel.text = post.title
     cell.commentsLabel.text = "\(post.commentsAmount) Comments"
     
@@ -193,7 +175,7 @@ class PostsListTableVC: UITableViewController {
     if post.thumbnail.isHTTP {
       let thumbnail = post.thumbnail
       cell.thumbImageView.showLoading()
-      imageProvider.fetchImage(url: post.thumbnail) { result in
+      imageService.fetchImage(url: post.thumbnail) { result in
         cell.thumbImageView.hideLoading()
         
         guard case let .success(image) = result else {
@@ -217,19 +199,10 @@ class PostsListTableVC: UITableViewController {
   
   override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if indexPath.row == posts.count {
-      DispatchQueue.main.async {
         self.loadMore()
-      }
     }
   }
   
-}
-
-
-extension PostsListTableVC: UIViewControllerRestoration {
-  static func viewController(withRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
-    return UIViewController()
-  }
 }
 
 extension PostsListTableVC: StateRestorationActivityProvider {
@@ -250,9 +223,9 @@ extension PostsListTableVC: StateRestorationActivityProvider {
     var info: [String: Any] = [:]
     info["offsetY"] = state.offset.y
     Log(state.offset)
-    if let post = state.lastPost {
-      info["postData"] = try! JSONEncoder().encode(post)
-    }
+//    if let post = state.lastPost {
+//      info["postData"] = try! JSONEncoder().encode(post)
+//    }
     activity.persistentIdentifier = "feed"
     
     activity.addUserInfoEntries(from: info)
