@@ -14,13 +14,16 @@ class PostService {
   typealias PostsCompletion = ActionBlock<Result<[Post], Error>>
   
   private let postProvider: PostProvider
-  private let database: StandardDatabase
+  private let database: Database
   
-  init(postProvider: PostProvider, database: StandardDatabase) {
+  init(postProvider: PostProvider, database: Database) {
     self.postProvider = postProvider
     self.database = database
   }
   
+  /// Fetches posts
+  ///
+  /// Fetches posts remotly and cache them
   @discardableResult
   func fetchPosts(after post: Post? = nil, completion: @escaping PostsCompletion) -> NetworkOperation? {
     
@@ -38,6 +41,7 @@ class PostService {
     }
   }
   
+  /// Fetches all cached posts
   func fetchCachedPosts(completion: @escaping PostsCompletion) {
     self.database.fetchPosts { result in
       switch result {
@@ -49,7 +53,8 @@ class PostService {
     }
   }
   
-  func removeCache() {
+  /// Removes all cached posts
+  func wipeCache() {
     database.removePosts()
   }
   

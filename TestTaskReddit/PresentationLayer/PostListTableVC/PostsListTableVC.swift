@@ -50,7 +50,7 @@ class PostsListTableVC: UITableViewController {
   }
   
   private func reloadPosts() {
-    service.removeCache()
+    service.wipeCache()
     loadingOperation = service.fetchPosts() { [weak self] result in
       guard let self = self else { return }
       self.refreshControl?.endRefreshing()

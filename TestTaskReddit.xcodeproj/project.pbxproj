@@ -44,6 +44,7 @@
 		A5E0854C235DDF6B00BE6241 /* PostProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0854B235DDF6B00BE6241 /* PostProvider.swift */; };
 		A5E0854F235DEED500BE6241 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0854E235DEED500BE6241 /* UserError.swift */; };
 		A5E08551235DEF2C00BE6241 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08550235DEF2C00BE6241 /* URLBuilder.swift */; };
+		A5E08573235F371A00BE6241 /* StandardDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08572235F371A00BE6241 /* StandardDatabase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		A5E0854B235DDF6B00BE6241 /* PostProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProvider.swift; sourceTree = "<group>"; };
 		A5E0854E235DEED500BE6241 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		A5E08550235DEF2C00BE6241 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
+		A5E08572235F371A00BE6241 /* StandardDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardDatabase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +342,7 @@
 				A5E08516235DA78300BE6241 /* Database.swift */,
 				A5E08518235DA79700BE6241 /* CoreDataStack.swift */,
 				A5E0853D235DA9F100BE6241 /* TestTask.xcdatamodeld */,
+				A5E08572235F371A00BE6241 /* StandardDatabase.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				A5BD9711235B569B0006C036 /* Utilities.swift in Sources */,
 				A5E08519235DA79800BE6241 /* CoreDataStack.swift in Sources */,
 				A5E0854F235DEED500BE6241 /* UserError.swift in Sources */,
+				A5E08573235F371A00BE6241 /* StandardDatabase.swift in Sources */,
 				A554C729235B537F009663CF /* PostsResult.swift in Sources */,
 				A5069C15235B5B4900A75764 /* PostTableCell.swift in Sources */,
 				A5E08548235DAE2200BE6241 /* PostModel+CoreDataProperties.swift in Sources */,

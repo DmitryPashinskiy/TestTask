@@ -14,7 +14,7 @@ class DIFactory {
     let imageStorage = ImageStorageImpl(spaceName: "NetworkImageCache")
     let imageProvider = ImageProviderImpl(storage: imageStorage, networkManager: NetworkManagerImpl())
     let postProvider = PostProviderImpl(networkManager: NetworkManagerImpl())
-    let database = StandardDatabase(stack: CoreDataStack())
+    let database = StandardDatabase(stack: CoreDataStack(storeName: "TestTask"))
     
     let container = DIContainerImpl()
     container.register(imageProvider as ImageProvider)
