@@ -11,7 +11,8 @@ import Foundation
 class DIFactory {
   
   class func makePostsListContainer() -> DIContainer {
-    let imageProvider = ImageProviderImpl(storage: ImageStorageImpl(), networkManager: NetworkManagerImpl())
+    let imageStorage = ImageStorageImpl(spaceName: "NetworkImageCache")
+    let imageProvider = ImageProviderImpl(storage: imageStorage, networkManager: NetworkManagerImpl())
     let postProvider = PostProviderImpl(networkManager: NetworkManagerImpl())
     let database = StandardDatabase(stack: CoreDataStack())
     
