@@ -25,6 +25,10 @@ class PostsListRouter {
   }
   
   
+  func restorationActivity() -> NSUserActivity {
+    return NSUserActivity(activityType: "restoration.\(AppRoute.feed.rawValue)")
+  }
+  
 }
 
 

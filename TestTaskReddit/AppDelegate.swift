@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+    application.ignoreSnapshotOnNextApplicationLaunch()
     return true
   }
 

@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-/// TODO: - Add locks
 class ImageServiceImpl: ImageService {
   
   private var networkManager: NetworkManager

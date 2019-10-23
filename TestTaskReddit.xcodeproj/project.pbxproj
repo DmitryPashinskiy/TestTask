@@ -49,6 +49,7 @@
 		A5E0857B235F6CE000BE6241 /* ImageServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0857A235F6CE000BE6241 /* ImageServiceImpl.swift */; };
 		A5E0857D235F6CFA00BE6241 /* PostServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0857C235F6CFA00BE6241 /* PostServiceImpl.swift */; };
 		A5E08581235F6EA200BE6241 /* PostProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08580235F6EA200BE6241 /* PostProviderImpl.swift */; };
+		A5E08585235F8D0F00BE6241 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08584235F8D0F00BE6241 /* AppRoute.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		A5E0857A235F6CE000BE6241 /* ImageServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceImpl.swift; sourceTree = "<group>"; };
 		A5E0857C235F6CFA00BE6241 /* PostServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceImpl.swift; sourceTree = "<group>"; };
 		A5E08580235F6EA200BE6241 /* PostProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProviderImpl.swift; sourceTree = "<group>"; };
+		A5E08584235F8D0F00BE6241 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +292,7 @@
 		A5E084F8235C3E3800BE6241 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				A5E08583235F8CEF00BE6241 /* AppRoute */,
 				A5E084F9235C3E4500BE6241 /* MainCoordinator.swift */,
 			);
 			path = Coordinators;
@@ -431,6 +434,14 @@
 			path = DIContainerFactory;
 			sourceTree = "<group>";
 		};
+		A5E08583235F8CEF00BE6241 /* AppRoute */ = {
+			isa = PBXGroup;
+			children = (
+				A5E08584235F8D0F00BE6241 /* AppRoute.swift */,
+			);
+			path = AppRoute;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -511,6 +522,7 @@
 				A5E0857D235F6CFA00BE6241 /* PostServiceImpl.swift in Sources */,
 				A5E0854F235DEED500BE6241 /* UserError.swift in Sources */,
 				A5E08573235F371A00BE6241 /* StandardDatabase.swift in Sources */,
+				A5E08585235F8D0F00BE6241 /* AppRoute.swift in Sources */,
 				A554C729235B537F009663CF /* PostsResult.swift in Sources */,
 				A5069C15235B5B4900A75764 /* PostTableCell.swift in Sources */,
 				A5E08548235DAE2200BE6241 /* PostModel+CoreDataProperties.swift in Sources */,

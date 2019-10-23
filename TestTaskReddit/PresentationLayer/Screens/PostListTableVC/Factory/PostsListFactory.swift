@@ -10,7 +10,7 @@ import UIKit
 
 class PostsListFactory {
   
-  class func make(container: DIContainer, route: AppRoute? = nil) -> UIViewController {
+  class func make(container: DIContainer, route: AppRoute? = nil, activity: NSUserActivity? = nil) -> UIViewController {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let identifier = String(describing: PostsListTableVC.self)
     guard let vc = storyboard.instantiateViewController(identifier: identifier) as? PostsListTableVC else {
@@ -24,20 +24,22 @@ class PostsListFactory {
     }
     vc.imageService = imageService
     vc.service = service
-    
-    let router = PostsListRouter(container: container, viewController: vc)
-    
-    vc.router = router
+    vc.router = PostsListRouter(container: container, viewController: vc)
+    configure(viewController: vc, route: route, activity: activity)
+    return vc
+  }
+  
+  private class func configure(viewController: PostsListTableVC, route: AppRoute? = nil, activity: NSUserActivity? = nil) {
     if let route = route {
       switch route {
-      case .feed(activity: let activity):
-        vc.setup(activity: activity)
+      case .feed:
+        if let activity = activity {
+          viewController.configure(activity: activity)
+        }
       default:
         assertionFailure("Route is unsupported: \(route)")
       }
     }
-    
-    return vc
   }
   
 }

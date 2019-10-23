@@ -9,30 +9,21 @@
 import UIKit
 
 class PostsListTableVC: UITableViewController {
-
-  struct State {
-    var offset: CGPoint = .zero
-    var lastPost: Post?
-  }
   
   var router: PostsListRouter!
   var service: PostService!
   var imageService: ImageService!
   
-  var state = State()
-  
   private weak var loadingOperation: NetworkOperation? // it should be CancellableOperation
   
   private var posts: [Post] = []
-  
-  
+  private var expectedRow: Int?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     setupRefresher()
-    Log(state)
     
-    if let post = state.lastPost, state.offset != .zero {
+    if expectedRow != nil {
       fetchCachedPosts()
     } else {
       reloadPosts()
@@ -40,112 +31,13 @@ class PostsListTableVC: UITableViewController {
     
   }
   
-  func setupRefresher() {
-    refreshControl = UIRefreshControl()
-    refreshControl?.addTarget(self, action: #selector(refreshPulled), for: .valueChanged)
-  }
-  
-  @objc func refreshPulled() {
-    reloadPosts()
-  }
-  
-  private func reloadPosts() {
-    service.wipeCache()
-    loadingOperation = service.fetchPosts() { [weak self] result in
-      guard let self = self else { return }
-      self.refreshControl?.endRefreshing()
-      switch result {
-      case .success(let posts):
-        self.posts = posts
-        self.tableView.reloadData()
-      case .failure(let error):
-        self.show(error: error)
-      }
-    }
-  }
-  
-  private func loadMore() {
-    fetchPosts(after: posts.last)
-  }
-  
-  private func fetchCachedPosts() {
-    service.fetchCachedPosts { [weak self] result in
-      guard let self = self else { return }
-      self.refreshControl?.endRefreshing()
-      switch result {
-      case .success(let posts):
-        self.posts.append(contentsOf: posts)
-        self.tableView.reloadData()
-        self.state.offset.y = self.state.offset.y
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-          self.tableView.setContentOffset(self.state.offset, animated: false)
-        }
-      case .failure(let error):
-        self.show(error: error)
-      }
-    }
-  }
-  
-  private func fetchPosts(after: Post? = nil) {
-    guard loadingOperation == nil else {
-      Log("Loading posts operation is in progress already")
+  func configure(activity: NSUserActivity) {
+    guard let row = activity.userInfo?["row"] as? Int else {
       return
     }
-    
-    loadingOperation = service.fetchPosts(after: after) { [weak self] result in
-      guard let self = self else { return }
-      self.refreshControl?.endRefreshing()
-      switch result {
-      case .success(let posts):
-        self.posts.append(contentsOf: posts)
-        self.tableView.reloadData()
-      case .failure(let error):
-        self.show(error: error)
-      }
-    }
+    expectedRow = row
   }
-  
-  
-  // MARK: - UIStateRestoring
-  
-  override func encodeRestorableState(with coder: NSCoder) {
-    let key = String(describing: State.self)
-    coder.encode(state, forKey: key)
-    super.encodeRestorableState(with: coder)
-    Log(#function)
-  }
-  
-  override func decodeRestorableState(with coder: NSCoder) {
-    let key = String(describing: State.self)
-    if let state = coder.decodeObject(forKey: key) as? State {
-      self.state = state
-    }
-    super.decodeRestorableState(with: coder)
-    Log(#function)
-  }
-  
-  override func applicationFinishedRestoringState() {
-    Log(#function)
-  }
-  
-  func setup(activity: NSUserActivity) {
-    if let offsetY = activity.userInfo?["offsetY"] as? CGFloat {
-      state.offset.y = offsetY
-    }
-    
-//    if let postData = activity.userInfo?["postData"] as? Data {
-//      let post = try? JSONDecoder().decode(Post.self, from: postData)
-//      state.lastPost = post
-//    }
-    
-  }
-  
-  func getActivity() -> NSUserActivity {
-    let activity = NSUserActivity.init(activityType: "restoration")
-    activity.userInfo = ["state": state]
-    return activity
-  }
-  
+
   // MARK: - TableViewDataSource & TableViewDelegate
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -156,14 +48,27 @@ class PostsListTableVC: UITableViewController {
     
     /// Infinite scroll
     if indexPath.row == posts.count {
-      let loadCell = tableView.dequeueReusableCell(withIdentifier: "LoadTableCell", for: indexPath)
+      let loadCell = tableView.dequeueReusableCell(withIdentifier: String(describing: LoadTableCell.self), for: indexPath)
       return loadCell
     }
     
-    let identifier = "PostTableCell"
+    let identifier = String(describing: PostTableCell.self)
     guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? PostTableCell else {
       fatalError("There is no such cell with identifier \(identifier)")
     }
+    
+    configure(cell: cell, at: indexPath)
+
+    return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if indexPath.row == posts.count {
+        self.loadMore()
+    }
+  }
+  
+  func configure(cell: PostTableCell, at indexPath: IndexPath) {
     let post = posts[indexPath.row]
 
     cell.topLabel.text = "Posted by \(post.author) \(post.createdTimeAgo)"
@@ -175,14 +80,15 @@ class PostsListTableVC: UITableViewController {
     if post.thumbnail.isHTTP {
       let thumbnail = post.thumbnail
       cell.thumbImageView.showLoading()
-      imageService.fetchImage(url: post.thumbnail) { result in
+      imageService.fetchImage(url: post.thumbnail) { [weak self] result in
+        guard let self = self else { return }
         cell.thumbImageView.hideLoading()
         
         guard case let .success(image) = result else {
           return
         }
         // Check whether the post exists at the same indexPath or no
-        guard let cell = tableView.cellForRow(at: indexPath) as? PostTableCell,
+        guard let cell = self.tableView.cellForRow(at: indexPath) as? PostTableCell,
           indexPath.row < self.posts.count,
           self.posts[indexPath.row].thumbnail == thumbnail else {
             return
@@ -193,47 +99,105 @@ class PostsListTableVC: UITableViewController {
     } else {
       cell.thumbImageView.isHidden = true
     }
-
-    return cell
   }
   
-  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if indexPath.row == posts.count {
-        self.loadMore()
+  // MARK: - Actions
+  
+  @objc func refreshPulled() {
+    reloadPosts()
+  }
+  
+}
+
+
+private extension PostsListTableVC {
+  func setupRefresher() {
+    refreshControl = UIRefreshControl()
+    refreshControl?.addTarget(self, action: #selector(refreshPulled), for: .valueChanged)
+  }
+  
+  private func reloadPosts() {
+    
+    guard loadingOperation == nil else {
+      Log("Loading posts operation is in progress already")
+      return
+    }
+    
+    service.wipeCache()
+    refreshControl?.beginRefreshing()
+    loadingOperation = service.fetchPosts() { [weak self] result in
+      guard let self = self else { return }
+      self.refreshControl?.endRefreshing()
+      self.posts = []
+      self.handlePostsResult(result)
+    }
+  }
+  
+  private func fetchCachedPosts() {
+    refreshControl?.beginRefreshing()
+    service.fetchCachedPosts { [weak self] result in
+      guard let self = self else { return }
+      self.refreshControl?.endRefreshing()
+      self.handlePostsResult(result)
+      self.scrollIfNeeded()
+    }
+  }
+  
+  private func fetchPosts(after: Post? = nil) {
+    guard loadingOperation == nil else {
+      Log("Loading posts operation is in progress already")
+      return
+    }
+    
+    loadingOperation = service.fetchPosts(after: after) { [weak self] result in
+      guard let self = self else { return }
+      self.handlePostsResult(result)
+    }
+  }
+
+  private func loadMore() {
+    fetchPosts(after: posts.last)
+  }
+  
+  private func scrollIfNeeded() {
+    if let row = expectedRow {
+      tableView.scrollToRow(at: IndexPath(row: row, section: 0), at: .top, animated: true)
+      expectedRow = nil
+    }
+  }
+  
+  private func handlePostsResult(_ result: Result<[Post], Error>) {
+    switch result {
+    case .success(let posts):
+      self.posts.append(contentsOf: posts)
+      self.tableView.reloadData()
+    case .failure(let error):
+      self.show(error: error)
     }
   }
   
 }
 
+
+// MARK: - StateRestorationActivityProvider
 extension PostsListTableVC: StateRestorationActivityProvider {
-  
-  override func restoreUserActivityState(_ activity: NSUserActivity) {
-    super.restoreUserActivityState(activity)
-    
-  }
-  
   func stateRestorationActivity() -> NSUserActivity? {
-    Log("")
+    // preventing saving state if current page is not visible
+    guard self.view.window != nil else {
+      return nil
+    }
     
-    state.lastPost = posts.last
-    state.offset = tableView.contentOffset
-    
-    let activity = NSUserActivity(activityType: "restoration")
-    
-    var info: [String: Any] = [:]
-    info["offsetY"] = state.offset.y
-    Log(state.offset)
-//    if let post = state.lastPost {
-//      info["postData"] = try! JSONEncoder().encode(post)
-//    }
-    activity.persistentIdentifier = "feed"
-    
-    activity.addUserInfoEntries(from: info)
-    Log(activity)
+    let activity = router.restorationActivity()
+    guard let row = tableView.indexPathsForVisibleRows?.first?.row else {
+      return nil
+    }
+    activity.addUserInfoEntries(from: ["row": row])
     return activity
   }
 }
 
+
+// MARK: - PostTableCellDelegate
 extension PostsListTableVC: PostTableCellDelegate {
   func cellDidTapImage(_ cell: PostTableCell) {
     guard let indexPath = tableView.indexPath(for: cell) else {
